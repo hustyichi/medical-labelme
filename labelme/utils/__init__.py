@@ -11,6 +11,10 @@ from .image import img_data_to_png_data
 from .image import img_pil_to_data
 from .image import img_qt_to_arr
 
+from .medical import is_dicom_file
+from .medical import is_supported_image
+from .medical import get_all_supported_image_types
+
 from .shape import labelme_shapes_to_label
 from .shape import masks_to_bboxes
 from .shape import polygons_to_mask
