@@ -47,7 +47,7 @@ class LabelFile(object):
         self.filename = filename
 
     @staticmethod
-    def load_dicom_file(filename: str):
+    def load_dicom_file(filename: str, frame: int = 0):
         def handle_intercept(dicom_data: pydicom.FileDataset, img_data: np.ndarray):
             if "RescaleIntercept" in dicom_data:
                 img_data += int(dicom_data.RescaleIntercept)
@@ -63,6 +63,11 @@ class LabelFile(object):
         try:
             dicom_data = pydicom.dcmread(filename)
             img = np.array(dicom_data.pixel_array).astype("float32")
+
+            total_frame = utils.count_dicom_frame(dicom_data)
+            if total_frame > 1:
+                img = img[frame]
+
             img = handle_intercept(dicom_data, img)
             img = normalize_img(img)
 
@@ -82,9 +87,9 @@ class LabelFile(object):
             return
 
     @staticmethod
-    def load_image_file(filename):
+    def load_image_file(filename: str, frame: int = 0):
         if utils.is_dicom_file(filename):
-            image_pil = LabelFile.load_dicom_file(filename)
+            image_pil = LabelFile.load_dicom_file(filename, frame)
         else:
             image_pil = LabelFile.load_common_image_file(filename)
 
