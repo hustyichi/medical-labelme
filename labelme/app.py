@@ -1599,8 +1599,7 @@ class MainWindow(QtWidgets.QMainWindow):
 
         if image.isNull():
             formats = [
-                "*.{}".format(fmt.data().decode())
-                for fmt in QtGui.QImageReader.supportedImageFormats()
+                "*.{}".format(fmt) for fmt in utils.get_all_supported_image_types()
             ]
             self.errorMessage(
                 self.tr("Error opening file"),
@@ -1809,10 +1808,10 @@ class MainWindow(QtWidgets.QMainWindow):
         if not self.mayContinue():
             return
         path = osp.dirname(str(self.filename)) if self.filename else "."
-        formats = [
-            "*.{}".format(fmt.data().decode())
-            for fmt in QtGui.QImageReader.supportedImageFormats()
-        ]
+
+        support_types = utils.get_all_supported_image_types()
+        formats = ["*.{}".format(st) for st in support_types]
+
         filters = self.tr("Image & Label files (%s)") % " ".join(
             formats + ["*%s" % LabelFile.suffix]
         )

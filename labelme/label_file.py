@@ -4,7 +4,9 @@ import io
 import json
 import os.path as osp
 
+import numpy as np
 import PIL.Image
+import pydicom
 
 from labelme import __version__
 from labelme.logger import logger
@@ -45,11 +47,48 @@ class LabelFile(object):
         self.filename = filename
 
     @staticmethod
-    def load_image_file(filename):
+    def load_dicom_file(filename: str):
+        def handle_intercept(dicom_data: pydicom.FileDataset, img_data: np.ndarray):
+            if "RescaleIntercept" in dicom_data:
+                img_data += int(dicom_data.RescaleIntercept)
+
+            return img_data
+
+        def normalize_img(img_data: np.ndarray):
+            min_, max_ = float(np.min(img_data)), float(np.max(img_data))
+            normalize_img_data = (img_data - min_) / (max_ - min_) * 255
+            trans_img_data = np.uint8(normalize_img_data)
+            return trans_img_data
+
+        try:
+            dicom_data = pydicom.dcmread(filename)
+            img = np.array(dicom_data.pixel_array).astype("float32")
+            img = handle_intercept(dicom_data, img)
+            img = normalize_img(img)
+
+            image_pil = PIL.Image.fromarray(img)
+            return image_pil
+        except IOError:
+            logger.error(f"Failed to load dicom file: {filename}")
+            return
+
+    @staticmethod
+    def load_common_image_file(filename: str):
         try:
             image_pil = PIL.Image.open(filename)
+            return image_pil
         except IOError:
             logger.error("Failed opening image file: {}".format(filename))
+            return
+
+    @staticmethod
+    def load_image_file(filename):
+        if utils.is_dicom_file(filename):
+            image_pil = LabelFile.load_dicom_file(filename)
+        else:
+            image_pil = LabelFile.load_common_image_file(filename)
+
+        if not image_pil:
             return
 
         # apply orientation to image according to exif
