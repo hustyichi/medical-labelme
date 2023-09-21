@@ -11,6 +11,7 @@ from .image import img_data_to_png_data
 from .image import img_pil_to_data
 from .image import img_qt_to_arr
 
+from .medical import count_dicom_frame
 from .medical import is_dicom_file
 from .medical import is_supported_image
 from .medical import get_all_supported_image_types

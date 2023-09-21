@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+import pydicom
 from qtpy import QtGui
 
 DICOM_TYPES = [
@@ -7,6 +8,8 @@ DICOM_TYPES = [
     "dic",
     "dicom",
 ]
+
+FRAME_TAG = [0x0028,0x0008]
 
 
 def is_dicom_file(file_name: str):
@@ -32,3 +35,29 @@ def is_supported_image(file_name: str):
 
     suffix = file_name.lower().split(".")[-1]
     return suffix in get_all_supported_image_types()
+
+
+def count_dicom_frame(dicom_data: pydicom.FileDataset):
+    frame_data = dicom_data.get_item(FRAME_TAG)  # type: ignore
+    if frame_data:
+        frame_value = frame_data.value
+        if frame_value:
+            if isinstance(frame_value, bytes):
+                return frame_value.decode()
+            return frame_value
+
+    pixel_shape = dicom_data.pixel_array.shape
+    # frame, width, height, channel
+    if len(pixel_shape) >= 4:
+        return pixel_shape[0]
+
+    # width, height
+    if len(pixel_shape) <= 2:
+        return 1
+
+    # width, height, channel
+    if pixel_shape[-1] <= 3:
+        return 1
+
+    # frame, width, height
+    return pixel_shape[0]
