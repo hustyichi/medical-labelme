@@ -15,7 +15,7 @@ a = Analysis(
         ('labelme/config/default_config.yaml', 'labelme/config'),
         ('labelme/icons/*', 'labelme/icons'),
     ],
-    hiddenimports=[],
+    hiddenimports=['pydicom.encoders.gdcm', 'pydicom.encoders.pylibjpeg'],
     hookspath=[],
     runtime_hooks=[],
     excludes=[],
