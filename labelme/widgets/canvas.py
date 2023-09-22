@@ -1,14 +1,15 @@
+from typing import List, Optional
+
 import gdown
 from qtpy import QtCore
 from qtpy import QtGui
 from qtpy import QtWidgets
 
 import labelme.ai
-from labelme.logger import logger
-from labelme import QT5
-from labelme.shape import Shape
 import labelme.utils
-
+from labelme import QT5
+from labelme.logger import logger
+from labelme.shape import Shape
 
 # TODO(unknown):
 # - [maybe] Find optimal epsilon value.
@@ -65,7 +66,7 @@ class Canvas(QtWidgets.QWidget):
         super(Canvas, self).__init__(*args, **kwargs)
         # Initialise local state.
         self.mode = self.EDIT
-        self.shapes = []
+        self.shapes: List[Shape] = []
         self.shapesBackups = []
         self.current = None
         self.selectedShapes = []  # save the selected shapes here
@@ -981,7 +982,7 @@ class Canvas(QtWidgets.QWidget):
 
                 self.movingShape = False
 
-    def setLastLabel(self, text, flags):
+    def setLastLabel(self, text: str, flags: Optional[dict]) -> Shape:
         assert text
         self.shapes[-1].label = text
         self.shapes[-1].flags = flags
