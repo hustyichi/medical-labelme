@@ -250,6 +250,22 @@ class MainWindow(QtWidgets.QMainWindow):
             self.tr("Open prev (hold Ctl+Shift to copy labels)"),
             enabled=False,
         )
+        openNextFrame = action(
+            self.tr("&Next Frame"),
+            self.open_next_frame,
+            None,
+            "next",
+            self.tr("Open next frame"),
+            enabled=False,
+        )
+        openPrevFrame = action(
+            self.tr("&Prev Frame"),
+            self.open_prev_frame,
+            None,
+            "prev",
+            self.tr("Open next frame"),
+            enabled=False,
+        )
         save = action(
             self.tr("&Save"),
             self.saveFile,
@@ -632,6 +648,8 @@ class MainWindow(QtWidgets.QMainWindow):
             zoomActions=zoomActions,
             openNextImg=openNextImg,
             openPrevImg=openPrevImg,
+            openNextFrame=openNextFrame,
+            openPrevFrame=openPrevFrame,
             fileMenuActions=(open_, opendir, save, saveAs, close, quit),
             tool=(),
             # XXX: need to add some actions here to activate the shortcut
@@ -775,6 +793,8 @@ class MainWindow(QtWidgets.QMainWindow):
             opendir,
             openNextImg,
             openPrevImg,
+            openNextFrame,
+            openPrevFrame,
             save,
             deleteFile,
             None,
@@ -1597,7 +1617,7 @@ class MainWindow(QtWidgets.QMainWindow):
             self.otherData = self.labelFile.otherData
         else:
             self.imageData, self.total_frame = LabelFile.load_image_file(filename, self.current_frame)
-            self.update_frame_msg()
+            self.update_frame()
             if self.imageData:
                 self.imagePath = filename
             self.labelFile = None
@@ -2155,9 +2175,30 @@ class MainWindow(QtWidgets.QMainWindow):
         images = natsort.os_sorted(images)
         return images
 
-    def update_frame_msg(self):
+    def update_frame(self):
         msg = ""
         if self.total_frame > 0:
             msg = f"{self.current_frame + 1}/{self.total_frame}"
 
         self.frame_label.setText(self.tr(msg))
+
+        self.actions.openPrevFrame.setEnabled(self.current_frame > 0)
+        self.actions.openNextFrame.setEnabled(self.current_frame < self.total_frame - 1)
+
+    def open_next_frame(self):
+        if self.total_frame <= 1:
+            return
+
+        if self.current_frame < self.total_frame - 1:
+            self.current_frame += 1
+            self.loadFile(self.filename)
+            self.update_frame()
+
+    def open_prev_frame(self):
+        if self.total_frame <= 1:
+            return
+
+        if self.current_frame > 0:
+            self.current_frame -= 1
+            self.loadFile(self.filename)
+            self.update_frame()
