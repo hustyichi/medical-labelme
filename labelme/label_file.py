@@ -72,10 +72,10 @@ class LabelFile(object):
             img = normalize_img(img)
 
             image_pil = PIL.Image.fromarray(img)
-            return image_pil
+            return image_pil, total_frame
         except IOError:
             logger.error(f"Failed to load dicom file: {filename}")
-            return
+            return None, 0
 
     @staticmethod
     def load_common_image_file(filename: str):
@@ -88,13 +88,16 @@ class LabelFile(object):
 
     @staticmethod
     def load_image_file(filename: str, frame: int = 0):
+        total_frame = 0
+
         if utils.is_dicom_file(filename):
-            image_pil = LabelFile.load_dicom_file(filename, frame)
+            image_pil, total_frame = LabelFile.load_dicom_file(filename, frame)
         else:
             image_pil = LabelFile.load_common_image_file(filename)
+            total_frame = 1
 
         if not image_pil:
-            return
+            return None, 0
 
         # apply orientation to image according to exif
         image_pil = utils.apply_exif_orientation(image_pil)
@@ -109,7 +112,7 @@ class LabelFile(object):
                 format = "PNG"
             image_pil.save(f, format=format)
             f.seek(0)
-            return f.read()
+            return f.read(), total_frame
 
     def load(self, filename):
         keys = [
@@ -140,7 +143,7 @@ class LabelFile(object):
             else:
                 # relative path from label file to relative path from cwd
                 imagePath = osp.join(osp.dirname(filename), data["imagePath"])
-                imageData = self.load_image_file(imagePath)
+                imageData, _ = self.load_image_file(imagePath)
             flags = data.get("flags") or {}
             imagePath = data["imagePath"]
             self._check_image_height_and_width(

@@ -793,6 +793,11 @@ class MainWindow(QtWidgets.QMainWindow):
             selectAiModel,
         )
 
+        self.current_frame = 0
+        self.total_frame = 0
+        self.frame_label = QtWidgets.QLabel(self.tr(""))
+        self.statusBar().addPermanentWidget(self.frame_label)
+
         self.statusBar().showMessage(str(self.tr("%s started.")) % __appname__)
         self.statusBar().show()
 
@@ -1591,7 +1596,8 @@ class MainWindow(QtWidgets.QMainWindow):
             )
             self.otherData = self.labelFile.otherData
         else:
-            self.imageData = LabelFile.load_image_file(filename)
+            self.imageData, self.total_frame = LabelFile.load_image_file(filename, self.current_frame)
+            self.update_frame_msg()
             if self.imageData:
                 self.imagePath = filename
             self.labelFile = None
@@ -2148,3 +2154,10 @@ class MainWindow(QtWidgets.QMainWindow):
                     images.append(relativePath)
         images = natsort.os_sorted(images)
         return images
+
+    def update_frame_msg(self):
+        msg = ""
+        if self.total_frame > 0:
+            msg = f"{self.current_frame + 1}/{self.total_frame}"
+
+        self.frame_label.setText(self.tr(msg))
