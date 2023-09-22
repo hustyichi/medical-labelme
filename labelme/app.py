@@ -1342,7 +1342,7 @@ class MainWindow(QtWidgets.QMainWindow):
     def saveLabels(self, filename):
         lf = LabelFile()
 
-        def format_shape(s):
+        def format_shape(s: Shape):
             data = s.other_data.copy()
             data.update(
                 dict(
@@ -1352,6 +1352,7 @@ class MainWindow(QtWidgets.QMainWindow):
                     description=s.description,
                     shape_type=s.shape_type,
                     flags=s.flags,
+                    frame=s.frame,
                 )
             )
             return data
@@ -1463,6 +1464,7 @@ class MainWindow(QtWidgets.QMainWindow):
             shape = self.canvas.setLastLabel(text, flags)
             shape.group_id = group_id
             shape.description = description
+            shape.frame = self.current_frame
             self.addLabel(shape)
             self.actions.editMode.setEnabled(True)
             self.actions.undoLastPoint.setEnabled(False)

@@ -53,6 +53,7 @@ class Shape(object):
         flags=None,
         group_id=None,
         description=None,
+        frame=0,
     ):
         self.label = label
         self.group_id = group_id
@@ -67,6 +68,7 @@ class Shape(object):
         self.shape_type = shape_type
         self.flags = flags
         self.description = description
+        self.frame = frame
         self.other_data = {}
 
         self._highlightIndex = None
