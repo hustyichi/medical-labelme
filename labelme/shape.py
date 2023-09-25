@@ -4,8 +4,9 @@ import math
 from qtpy import QtCore
 from qtpy import QtGui
 
-from labelme.logger import logger
 import labelme.utils
+from labelme import PY2
+from labelme.logger import logger
 
 
 # TODO(unknown):
@@ -355,3 +356,18 @@ class Shape(object):
 
     def __setitem__(self, key, value):
         self.points[key] = value
+
+    def format(self) -> dict:
+        data = self.other_data.copy()
+        data.update(
+            dict(
+                label=self.label.encode("utf-8") if PY2 else self.label,
+                points=[(p.x(), p.y()) for p in self.points],
+                group_id=self.group_id,
+                description=self.description,
+                shape_type=self.shape_type,
+                flags=self.flags,
+                frame=self.frame,
+            )
+        )
+        return data

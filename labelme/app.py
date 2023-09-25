@@ -16,7 +16,6 @@ from qtpy import QtGui
 from qtpy import QtWidgets
 
 from labelme import __appname__
-from labelme import PY2
 
 from . import utils
 from labelme.ai import MODELS
@@ -1342,22 +1341,7 @@ class MainWindow(QtWidgets.QMainWindow):
     def saveLabels(self, filename):
         lf = LabelFile()
 
-        def format_shape(s: Shape):
-            data = s.other_data.copy()
-            data.update(
-                dict(
-                    label=s.label.encode("utf-8") if PY2 else s.label,
-                    points=[(p.x(), p.y()) for p in s.points],
-                    group_id=s.group_id,
-                    description=s.description,
-                    shape_type=s.shape_type,
-                    flags=s.flags,
-                    frame=s.frame,
-                )
-            )
-            return data
-
-        shapes = [format_shape(item.shape()) for item in self.labelList]
+        shapes = [item.shape().format() for item in self.labelList]
         flags = {}
         for i in range(self.flag_widget.count()):
             item = self.flag_widget.item(i)
