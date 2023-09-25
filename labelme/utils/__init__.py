@@ -15,6 +15,7 @@ from .medical import count_dicom_frame
 from .medical import is_dicom_file
 from .medical import is_supported_image
 from .medical import get_all_supported_image_types
+from .medical import load_image
 
 from .shape import labelme_shapes_to_label
 from .shape import masks_to_bboxes
