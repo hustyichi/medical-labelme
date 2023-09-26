@@ -20,6 +20,7 @@ from labelme import __appname__
 from . import utils
 from labelme.ai import MODELS
 from labelme.config import get_config
+from labelme.label_file import ImageLabel
 from labelme.label_file import LabelFile
 from labelme.label_file import LabelFileError
 from labelme.logger import logger
@@ -251,7 +252,7 @@ class MainWindow(QtWidgets.QMainWindow):
         )
         openNextFrame = action(
             self.tr("&Next Frame"),
-            self.open_next_frame,
+            self.openNextFrame,
             None,
             "next",
             self.tr("Open next frame"),
@@ -259,7 +260,7 @@ class MainWindow(QtWidgets.QMainWindow):
         )
         openPrevFrame = action(
             self.tr("&Prev Frame"),
-            self.open_prev_frame,
+            self.openPrevFrame,
             None,
             "prev",
             self.tr("Open next frame"),
@@ -812,10 +813,10 @@ class MainWindow(QtWidgets.QMainWindow):
             selectAiModel,
         )
 
-        self.current_frame = 0
-        self.total_frame = 0
-        self.frame_label = QtWidgets.QLabel(self.tr(""))
-        self.statusBar().addPermanentWidget(self.frame_label)
+        self.imageLabel = None
+
+        self.frameLabelWidget = QtWidgets.QLabel(self.tr(""))
+        self.statusBar().addPermanentWidget(self.frameLabelWidget)
 
         self.statusBar().showMessage(str(self.tr("%s started.")) % __appname__)
         self.statusBar().show()
@@ -1448,7 +1449,7 @@ class MainWindow(QtWidgets.QMainWindow):
             shape = self.canvas.setLastLabel(text, flags)
             shape.group_id = group_id
             shape.description = description
-            shape.frame = self.current_frame
+            shape.frame = self.imageLabel.current_frame if self.imageLabel else 0
             self.addLabel(shape)
             self.actions.editMode.setEnabled(True)
             self.actions.undoLastPoint.setEnabled(False)
@@ -1550,7 +1551,7 @@ class MainWindow(QtWidgets.QMainWindow):
         for item in self.labelList:
             item.setCheckState(Qt.Checked if value else Qt.Unchecked)
 
-    def loadFile(self, filename=None):
+    def loadFile(self, filename=None, newFile: bool = True):
         """Load the specified file, or the last opened file if None."""
         # changing fileListWidget loads file
         if filename in self.imageList and (
@@ -1602,8 +1603,11 @@ class MainWindow(QtWidgets.QMainWindow):
             )
             self.otherData = self.labelFile.otherData
         else:
-            self.imageData, self.total_frame = LabelFile.load_image_file(filename, self.current_frame)
-            self.update_frame()
+            if newFile or not self.imageLabel:
+                self.imageLabel = ImageLabel(filename)
+
+            self.imageData = self.imageLabel.current_frame_image_data
+            self.updateFrameWidget()
             if self.imageData:
                 self.imagePath = filename
             self.labelFile = None
@@ -2161,30 +2165,26 @@ class MainWindow(QtWidgets.QMainWindow):
         images = natsort.os_sorted(images)
         return images
 
-    def update_frame(self):
+    def updateFrameWidget(self):
         msg = ""
-        if self.total_frame > 0:
-            msg = f"{self.current_frame + 1}/{self.total_frame}"
+        if self.imageLabel and self.imageLabel.total_frame > 0:
+            msg = f"{self.imageLabel.current_frame + 1}/{self.imageLabel.total_frame}"
 
-        self.frame_label.setText(self.tr(msg))
+        self.frameLabelWidget.setText(self.tr(msg))
 
-        self.actions.openPrevFrame.setEnabled(self.current_frame > 0)
-        self.actions.openNextFrame.setEnabled(self.current_frame < self.total_frame - 1)
+        self.actions.openPrevFrame.setEnabled(self.imageLabel.current_frame > 0)
+        self.actions.openNextFrame.setEnabled(self.imageLabel.current_frame < self.imageLabel.total_frame - 1)
 
-    def open_next_frame(self):
-        if self.total_frame <= 1:
+    def openNextFrame(self):
+        if not self.imageLabel:
             return
 
-        if self.current_frame < self.total_frame - 1:
-            self.current_frame += 1
-            self.loadFile(self.filename)
-            self.update_frame()
+        self.imageLabel.next_frame()
+        self.loadFile(self.filename, False)
 
-    def open_prev_frame(self):
-        if self.total_frame <= 1:
+    def openPrevFrame(self):
+        if not self.imageLabel:
             return
 
-        if self.current_frame > 0:
-            self.current_frame -= 1
-            self.loadFile(self.filename)
-            self.update_frame()
+        self.imageLabel.prev_frame()
+        self.loadFile(self.filename, False)
