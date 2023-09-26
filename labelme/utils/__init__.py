@@ -10,6 +10,7 @@ from .image import img_data_to_pil
 from .image import img_data_to_png_data
 from .image import img_pil_to_data
 from .image import img_qt_to_arr
+from .image import preprocess_img
 
 from .medical import count_dicom_frame
 from .medical import is_dicom_file

@@ -1,10 +1,14 @@
 import base64
 import io
+import os.path as osp
 
 import numpy as np
 import PIL.ExifTags
 import PIL.Image
 import PIL.ImageOps
+
+from labelme import PY2
+from labelme import QT4
 
 
 def img_data_to_pil(img_data):
@@ -106,3 +110,20 @@ def apply_exif_orientation(image):
         return image.transpose(PIL.Image.ROTATE_90)
     else:
         return image
+
+
+def preprocess_img(image_pil: PIL.Image.Image, image_path: str) -> bytes:
+    # apply orientation to image according to exif
+    image_pil = apply_exif_orientation(image_pil)
+
+    with io.BytesIO() as f:
+        ext = osp.splitext(image_path)[1].lower()
+        if PY2 and QT4:
+            format = "PNG"
+        elif ext in [".jpg", ".jpeg"]:
+            format = "JPEG"
+        else:
+            format = "PNG"
+        image_pil.save(f, format=format)
+        f.seek(0)
+        return f.read()
