@@ -2,6 +2,7 @@ import base64
 import contextlib
 import io
 import json
+import os
 import os.path as osp
 from typing import Optional, List
 
@@ -15,6 +16,7 @@ from labelme import PY2
 from labelme import QT4
 from labelme import utils
 from labelme.shape import Shape
+from labelme.shape import make_shape
 
 
 PIL.Image.MAX_IMAGE_PIXELS = None
@@ -40,24 +42,26 @@ class LabelFileError(Exception):
 class FrameLabel(object):
     def __init__(
         self,
-        filename: str,
+        image_path: str,
         image_pil: PIL.Image.Image,
         frame: int = 0,
         image_data: Optional[bytes] = None,
         shapes: Optional[List[Shape]] = None,
+        app_config: Optional[dict] = None,
     ) -> None:
-        self.filename = filename
+        self.image_path = image_path
         self.frame = frame
         self.image_data_bytes = image_data
         self.image_pil = image_pil
         self.shapes = shapes or []
+        self.app_config = app_config or {}
 
     @property
     def image_data(self) -> bytes:
         if self.image_data_bytes:
             return self.image_data_bytes
 
-        self.image_data_bytes = utils.preprocess_img(self.image_pil, self.filename)
+        self.image_data_bytes = utils.preprocess_img(self.image_pil, self.image_path)
         return self.image_data_bytes
 
     def add_shape(self, shape: Shape):
@@ -75,28 +79,91 @@ class FrameLabel(object):
             "imageHeight": self.image_pil.height,
         }
 
+    def load(self, format_data: dict):
+        if (
+            self.image_pil.width != format_data["imageWidth"]
+            or self.image_pil.height != format_data["imageHeight"]
+        ):
+            raise LabelFileError(f"Frame {self.frame} width or height not match")
+
+        for shape_data in format_data["shapes"]:
+            shape = make_shape(shape_data, self.app_config.get("label_flags", {}))
+            self.add_shape(shape)
+
 
 class ImageLabel(object):
-    suffix = "*.json"
+    suffix = ".json"
 
-    def __init__(self, filename: Optional[str] = None) -> None:
-        self.filename = filename
+    def __init__(
+        self,
+        file_path: Optional[str] = None,
+        app_config: Optional[dict] = None,
+    ) -> None:
+        self.image_path = ""
+        self.label_path = ""
         self.frame_labels: List[FrameLabel] = []
         self.current_frame = 0
         self.total_frame = 0
-        self.flags: dict = {}
+        self.other_data: dict = {}
+        self.app_config: dict = app_config or {}
+        self.flags = {k: False for k in self.app_config.get("flags") or []}
 
-        if self.filename:
-            self.load(self.filename)
+        if file_path:
+            self.load(file_path)
 
     def load_image(self, image_path: str):
+        if not osp.exists(image_path):
+            raise LabelFileError(f"Image {image_path} not exist")
+
         frame = 0
         for image_pil in utils.load_image(image_path):
-            self.frame_labels.append(FrameLabel(image_path, image_pil, frame=frame))
+            self.frame_labels.append(
+                FrameLabel(
+                    image_path,
+                    image_pil,
+                    frame=frame,
+                    app_config=self.app_config,
+                )
+            )
             frame += 1
 
-        self.filename = image_path
+        self.image_path = image_path
         self.total_frame = len(self.frame_labels)
+
+    def load_label_file(self, label_path: str):
+        if not osp.exists(label_path):
+            raise LabelFileError("Label file not exist")
+
+        try:
+            with open(label_path, "r") as f:
+                data = json.load(f)
+                relative_image_path = data.pop("imagePath")
+        except Exception as e:
+            raise LabelFileError(f"Parsed label file {label_path} failed")
+
+        self.label_path = label_path
+        image_path = osp.join(osp.dirname(label_path), relative_image_path)
+        self.load_image(image_path)
+
+        self.flags.update(data.pop("flags", {}))
+
+        frame_shapes_data = data.pop("frames", [])
+        version = data.pop("version", None)
+        totalFrame = data.pop("totalFrames", 0)
+        self.other_data = data.copy()
+
+        logger.info(
+            f"Load label file {label_path} with version {version} parsed successfully, got {totalFrame} frames"
+        )
+
+        # parse frame shape
+        for frame_data in frame_shapes_data:
+            frame_idx = int(frame_data.get("frame", -1))
+
+            if frame_idx < 0 or frame_idx >= self.total_frame:
+                raise LabelFileError(f"Frame shape data {frame_data} parse failed")
+
+            self.frame_labels[frame_idx].load(frame_data)
 
     def next_frame(self):
         if self.current_frame >= self.total_frame - 1:
@@ -127,34 +194,71 @@ class ImageLabel(object):
 
         return current_label.image_data
 
-    # load a image file or label file
-    def load(self, filename: str):
-        if utils.is_supported_image(filename):
-            self.load_image(filename)
+    @property
+    def current_frame_shapes(self) -> list[Shape]:
+        current_label = self.current_frame_label
+        if not current_label:
+            return []
 
-    def format(self):
-        return dict(
-            version=__version__,
-            flags=self.flags,
-            imagePath=self.filename,
-            totalFrames=self.total_frame,
-            frames=[frame.format() for frame in self.frame_labels if frame.shapes],
+        return current_label.shapes
+
+    def add_shape(self, shape: Shape):
+        current_label = self.current_frame_label
+        if not current_label:
+            return
+
+        current_label.add_shape(shape)
+
+    def remove_shapes(self, shapes: List[Shape]):
+        current_label = self.current_frame_label
+        if not current_label:
+            return
+
+        current_label.remove_shapes(shapes)
+
+    # load a image file or label file
+    def load(self, file_path: str):
+        if utils.is_supported_image(file_path):
+            self.load_image(file_path)
+        elif ImageLabel.is_label_file(file_path):
+            self.load_label_file(file_path)
+        else:
+            raise LabelFileError("Not support file type")
+
+    def format(self) -> dict:
+        data = self.other_data
+        data.update(
+            dict(
+                version=__version__,
+                flags=self.flags,
+                imagePath=osp.relpath(self.image_path, osp.dirname(self.label_path)),
+                totalFrames=self.total_frame,
+                frames=[frame.format() for frame in self.frame_labels if frame.shapes],
+            )
         )
+        return data
 
     # save image label to local file
-    def save(self, filename: str, other_data: Optional[dict] = None):
-        data = other_data or {}
-        data.update(self.format())
+    def save(self, label_path: str = ""):
+        if not label_path:
+            if not self.label_path:
+                raise LabelFileError("Label path not specified")
+        else:
+            self.label_path = label_path
+
+        label_parent = osp.dirname(self.label_path)
+        if not osp.exists(label_parent):
+            os.makedirs(label_parent)
 
         try:
-            with open(filename, "w") as f:
-                json.dump(data, f, ensure_ascii=False, indent=2)
+            with open(self.label_path, "w") as f:
+                json.dump(self.format(), f, ensure_ascii=False, indent=2)
         except Exception as e:
             raise LabelFileError(e)
 
     @staticmethod
-    def is_label_file(filename):
-        return osp.splitext(filename)[1].lower() == ImageLabel.suffix
+    def is_label_file(file_path):
+        return osp.splitext(file_path)[1].lower() == ImageLabel.suffix
 
 
 class LabelFile(object):
