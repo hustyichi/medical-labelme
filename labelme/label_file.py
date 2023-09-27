@@ -261,6 +261,7 @@ class ImageLabel(object):
         return osp.splitext(file_path)[1].lower() == ImageLabel.suffix
 
 
+# deprecated, use ImageLabel
 class LabelFile(object):
     suffix = ".json"
 
