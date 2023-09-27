@@ -1,5 +1,7 @@
 import copy
 import math
+import re
+from typing import Optional
 
 from qtpy import QtCore
 from qtpy import QtGui
@@ -371,3 +373,46 @@ class Shape(object):
             )
         )
         return data
+
+
+# create shape by Shape.format() result
+def make_shape(formated_shape: dict, label_flags_config: Optional[dict] = None):
+    def get_default_flags(label: str = "") -> dict:
+        default_flags: dict = {}
+        if not label_flags_config:
+            return default_flags
+
+        for pattern, keys in label_flags_config.items():
+            if re.match(pattern, label):
+                for key in keys:
+                    default_flags[key] = False
+
+        return default_flags
+
+    label = formated_shape.pop("label", "")
+    points = formated_shape.pop("points", [])
+    shape_type = formated_shape.pop("shape_type", "polygon")
+    flags = get_default_flags(label)
+    flags.update(formated_shape.pop("flags", {}))
+    description = formated_shape.pop("description", None)
+    group_id = formated_shape.pop("group_id", None)
+    other_data = formated_shape.copy()
+
+    if not points:
+        # skip point-empty shape
+        return None
+
+    shape = Shape(
+        label=label,
+        shape_type=shape_type,
+        flags=flags,
+        group_id=group_id,
+        description=description
+    )
+    shape.other_data = other_data
+
+    for x, y in points:
+        shape.addPoint(QtCore.QPointF(x, y))
+    shape.close()
+
+    return shape
