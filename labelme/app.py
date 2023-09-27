@@ -1286,6 +1286,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.labelList.clearSelection()
         self._noSelectionSlot = False
         self.canvas.loadShapes(shapes, replace=replace)
+        self.imageLabel.load_shapes(shapes, replace=replace)
 
     def loadLabels(self, shapes):
         s = []

@@ -71,6 +71,13 @@ class FrameLabel(object):
         for shape in shapes:
             self.shapes.remove(shape)
 
+    def load_shapes(self, shapes: List[Shape], replace:bool = True):
+        if replace:
+            self.shapes = []
+
+        for shape in shapes:
+            self.add_shape(shape)
+
     def format(self):
         return {
             "frame": self.frame,
@@ -215,6 +222,13 @@ class ImageLabel(object):
             return
 
         current_label.remove_shapes(shapes)
+
+    def load_shapes(self, shapes: List[Shape], replace: bool = True):
+        current_label = self.current_frame_label
+        if not current_label:
+            return
+
+        current_label.load_shapes(shapes, replace)
 
     # load a image file or label file
     def load(self, file_path: str):
