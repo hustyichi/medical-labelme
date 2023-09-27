@@ -21,7 +21,6 @@ from . import utils
 from labelme.ai import MODELS
 from labelme.config import get_config
 from labelme.label_file import ImageLabel
-from labelme.label_file import LabelFile
 from labelme.label_file import LabelFileError
 from labelme.logger import logger
 from labelme.shape import Shape
@@ -979,7 +978,6 @@ class MainWindow(QtWidgets.QMainWindow):
         self.filename = None
         self.imagePath = None
         self.imageData = None
-        self.labelFile = None
         self.otherData = None
         self.canvas.resetState()
 
@@ -1284,6 +1282,7 @@ class MainWindow(QtWidgets.QMainWindow):
         for shape in shapes:
             item = self.labelList.findItemByShape(shape)
             self.labelList.removeItem(item)
+        self.imageLabel.remove_shapes(shapes)
 
     def loadShapes(self, shapes, replace=True):
         self._noSelectionSlot = True
@@ -1340,31 +1339,18 @@ class MainWindow(QtWidgets.QMainWindow):
             self.flag_widget.addItem(item)
 
     def saveLabels(self, filename):
-        lf = LabelFile()
+        def get_current_flags():
+            flags = {}
+            for i in range(self.flag_widget.count()):
+                item = self.flag_widget.item(i)
+                key = item.text()
+                flag = item.checkState() == Qt.Checked
+                flags[key] = flag
+            return flags
 
-        shapes = [item.shape().format() for item in self.labelList]
-        flags = {}
-        for i in range(self.flag_widget.count()):
-            item = self.flag_widget.item(i)
-            key = item.text()
-            flag = item.checkState() == Qt.Checked
-            flags[key] = flag
+        self.imageLabel.flags = get_current_flags()
         try:
-            imagePath = osp.relpath(self.imagePath, osp.dirname(filename))
-            imageData = self.imageData if self._config["store_data"] else None
-            if osp.dirname(filename) and not osp.exists(osp.dirname(filename)):
-                os.makedirs(osp.dirname(filename))
-            lf.save(
-                filename=filename,
-                shapes=shapes,
-                imagePath=imagePath,
-                imageData=imageData,
-                imageHeight=self.image.height(),
-                imageWidth=self.image.width(),
-                otherData=self.otherData,
-                flags=flags,
-            )
-            self.labelFile = lf
+            self.imageLabel.save(filename)
             items = self.fileListWidget.findItems(
                 self.imagePath, Qt.MatchExactly
             )
@@ -1450,6 +1436,7 @@ class MainWindow(QtWidgets.QMainWindow):
             shape.group_id = group_id
             shape.description = description
             shape.frame = self.imageLabel.current_frame if self.imageLabel else 0
+            self.imageLabel.add_shape(shape)
             self.addLabel(shape)
             self.actions.editMode.setEnabled(True)
             self.actions.undoLastPoint.setEnabled(False)
@@ -1580,11 +1567,11 @@ class MainWindow(QtWidgets.QMainWindow):
         if self.output_dir:
             label_file_without_path = osp.basename(label_file)
             label_file = osp.join(self.output_dir, label_file_without_path)
-        if QtCore.QFile.exists(label_file) and LabelFile.is_label_file(
+        if QtCore.QFile.exists(label_file) and ImageLabel.is_label_file(
             label_file
         ):
             try:
-                self.labelFile = LabelFile(label_file)
+                self.imageLabel = ImageLabel(label_file, self._config)
             except LabelFileError as e:
                 self.errorMessage(
                     self.tr("Error opening file"),
@@ -1596,21 +1583,17 @@ class MainWindow(QtWidgets.QMainWindow):
                 )
                 self.status(self.tr("Error reading %s") % label_file)
                 return False
-            self.imageData = self.labelFile.imageData
-            self.imagePath = osp.join(
-                osp.dirname(label_file),
-                self.labelFile.imagePath,
-            )
-            self.otherData = self.labelFile.otherData
+            self.imageData = self.imageLabel.current_frame_image_data
+            self.imagePath = self.imageLabel.image_path
+            self.otherData = self.imageLabel.other_data
         else:
             if newFile or not self.imageLabel:
-                self.imageLabel = ImageLabel(filename)
+                self.imageLabel = ImageLabel(filename, self._config)
 
             self.imageData = self.imageLabel.current_frame_image_data
             self.updateFrameWidget()
             if self.imageData:
                 self.imagePath = filename
-            self.labelFile = None
         image = QtGui.QImage.fromData(self.imageData)
 
         if image.isNull():
@@ -1631,12 +1614,10 @@ class MainWindow(QtWidgets.QMainWindow):
         if self._config["keep_prev"]:
             prev_shapes = self.canvas.shapes
         self.canvas.loadPixmap(QtGui.QPixmap.fromImage(image))
-        flags = {k: False for k in self._config["flags"] or []}
-        if self.labelFile:
-            self.loadLabels(self.labelFile.shapes)
-            if self.labelFile.flags is not None:
-                flags.update(self.labelFile.flags)
-        self.loadFlags(flags)
+
+        self.loadShapes(self.imageLabel.current_frame_shapes)
+        self.loadFlags(self.imageLabel.flags)
+
         if self._config["keep_prev"] and self.noShapes():
             self.loadShapes(prev_shapes, replace=False)
             self.setDirty()
@@ -1829,7 +1810,7 @@ class MainWindow(QtWidgets.QMainWindow):
         formats = ["*.{}".format(st) for st in support_types]
 
         filters = self.tr("Image & Label files (%s)") % " ".join(
-            formats + ["*%s" % LabelFile.suffix]
+            formats + ["*%s" % ImageLabel.suffix]
         )
         fileDialog = FileDialogPreview(self)
         fileDialog.setFileMode(FileDialogPreview.ExistingFile)
@@ -1883,9 +1864,8 @@ class MainWindow(QtWidgets.QMainWindow):
 
     def saveFile(self, _value=False):
         assert not self.image.isNull(), "cannot save empty image"
-        if self.labelFile:
-            # DL20180323 - overwrite when in directory
-            self._saveFile(self.labelFile.filename)
+        if self.imageLabel.label_path:
+            self._saveFile(self.imageLabel.label_path)
         elif self.output_file:
             self._saveFile(self.output_file)
             self.close()
@@ -1898,7 +1878,7 @@ class MainWindow(QtWidgets.QMainWindow):
 
     def saveFileDialog(self):
         caption = self.tr("%s - Choose File") % __appname__
-        filters = self.tr("Label files (*%s)") % LabelFile.suffix
+        filters = self.tr("Label files (*%s)") % ImageLabel.suffix
         if self.output_dir:
             dlg = QtWidgets.QFileDialog(
                 self, caption, self.output_dir, filters
@@ -1907,24 +1887,24 @@ class MainWindow(QtWidgets.QMainWindow):
             dlg = QtWidgets.QFileDialog(
                 self, caption, self.currentPath(), filters
             )
-        dlg.setDefaultSuffix(LabelFile.suffix[1:])
+        dlg.setDefaultSuffix(ImageLabel.suffix[1:])
         dlg.setAcceptMode(QtWidgets.QFileDialog.AcceptSave)
         dlg.setOption(QtWidgets.QFileDialog.DontConfirmOverwrite, False)
         dlg.setOption(QtWidgets.QFileDialog.DontUseNativeDialog, False)
         basename = osp.basename(osp.splitext(self.filename)[0])
         if self.output_dir:
             default_labelfile_name = osp.join(
-                self.output_dir, basename + LabelFile.suffix
+                self.output_dir, basename + ImageLabel.suffix
             )
         else:
             default_labelfile_name = osp.join(
-                self.currentPath(), basename + LabelFile.suffix
+                self.currentPath(), basename + ImageLabel.suffix
             )
         filename = dlg.getSaveFileName(
             self,
             self.tr("Choose File"),
             default_labelfile_name,
-            self.tr("Label files (*%s)") % LabelFile.suffix,
+            self.tr("Label files (*%s)") % ImageLabel.suffix,
         )
         if isinstance(filename, tuple):
             filename, _ = filename
@@ -2108,7 +2088,7 @@ class MainWindow(QtWidgets.QMainWindow):
                 label_file = osp.join(self.output_dir, label_file_without_path)
             item = QtWidgets.QListWidgetItem(file)
             item.setFlags(Qt.ItemIsEnabled | Qt.ItemIsSelectable)
-            if QtCore.QFile.exists(label_file) and LabelFile.is_label_file(
+            if QtCore.QFile.exists(label_file) and ImageLabel.is_label_file(
                 label_file
             ):
                 item.setCheckState(Qt.Checked)
@@ -2141,7 +2121,7 @@ class MainWindow(QtWidgets.QMainWindow):
                 label_file = osp.join(self.output_dir, label_file_without_path)
             item = QtWidgets.QListWidgetItem(filename)
             item.setFlags(Qt.ItemIsEnabled | Qt.ItemIsSelectable)
-            if QtCore.QFile.exists(label_file) and LabelFile.is_label_file(
+            if QtCore.QFile.exists(label_file) and ImageLabel.is_label_file(
                 label_file
             ):
                 item.setCheckState(Qt.Checked)
