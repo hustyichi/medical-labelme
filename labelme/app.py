@@ -833,7 +833,6 @@ class MainWindow(QtWidgets.QMainWindow):
         self.image = QtGui.QImage()
         self.recentFiles = []
         self.maxRecent = 7
-        self.otherData = None
         self.zoom_level = 100
         self.fit_window = False
         self.zoom_values = {}  # key=filename, value=(zoom_mode, zoom_value)
@@ -975,7 +974,6 @@ class MainWindow(QtWidgets.QMainWindow):
     def resetState(self):
         self.labelList.clear()
         self.filename = None
-        self.otherData = None
         self.canvas.resetState()
 
     def currentItem(self):
@@ -1580,7 +1578,6 @@ class MainWindow(QtWidgets.QMainWindow):
                 )
                 self.status(self.tr("Error reading %s") % label_file)
                 return False
-            self.otherData = self.imageLabel.other_data
         else:
             if newFile or not self.imageLabel:
                 self.imageLabel = ImageLabel(filename, self._config)
