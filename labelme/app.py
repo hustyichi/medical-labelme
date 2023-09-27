@@ -831,7 +831,6 @@ class MainWindow(QtWidgets.QMainWindow):
 
         # Application state.
         self.image = QtGui.QImage()
-        self.imagePath = None
         self.recentFiles = []
         self.maxRecent = 7
         self.otherData = None
@@ -927,7 +926,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.actions.undo.setEnabled(self.canvas.isShapeRestorable)
 
         if self._config["auto_save"] or self.actions.saveAuto.isChecked():
-            label_file = osp.splitext(self.imagePath)[0] + ".json"
+            label_file = osp.splitext(self.imageLabel.image_path)[0] + ".json"
             if self.output_dir:
                 label_file_without_path = osp.basename(label_file)
                 label_file = osp.join(self.output_dir, label_file_without_path)
@@ -976,7 +975,6 @@ class MainWindow(QtWidgets.QMainWindow):
     def resetState(self):
         self.labelList.clear()
         self.filename = None
-        self.imagePath = None
         self.otherData = None
         self.canvas.resetState()
 
@@ -1351,7 +1349,7 @@ class MainWindow(QtWidgets.QMainWindow):
         try:
             self.imageLabel.save(filename)
             items = self.fileListWidget.findItems(
-                self.imagePath, Qt.MatchExactly
+                self.imageLabel.image_path, Qt.MatchExactly
             )
             if len(items) > 0:
                 if len(items) != 1:
@@ -1582,15 +1580,12 @@ class MainWindow(QtWidgets.QMainWindow):
                 )
                 self.status(self.tr("Error reading %s") % label_file)
                 return False
-            self.imagePath = self.imageLabel.image_path
             self.otherData = self.imageLabel.other_data
         else:
             if newFile or not self.imageLabel:
                 self.imageLabel = ImageLabel(filename, self._config)
 
             self.updateFrameWidget()
-            if self.imageLabel.current_frame_image_data:
-                self.imagePath = filename
         image = QtGui.QImage.fromData(self.imageLabel.current_frame_image_data)
 
         if image.isNull():
