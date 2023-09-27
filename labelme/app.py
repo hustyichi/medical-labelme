@@ -2128,15 +2128,10 @@ class MainWindow(QtWidgets.QMainWindow):
         self.openNextImg(load=load)
 
     def scanAllImages(self, folderPath):
-        extensions = [
-            ".%s" % fmt.data().decode().lower()
-            for fmt in QtGui.QImageReader.supportedImageFormats()
-        ]
-
         images = []
         for root, dirs, files in os.walk(folderPath):
             for file in files:
-                if file.lower().endswith(tuple(extensions)):
+                if utils.is_supported_image(file):
                     relativePath = osp.join(root, file)
                     images.append(relativePath)
         images = natsort.os_sorted(images)
