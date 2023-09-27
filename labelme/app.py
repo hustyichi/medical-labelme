@@ -1534,6 +1534,14 @@ class MainWindow(QtWidgets.QMainWindow):
             item.setCheckState(Qt.Checked if value else Qt.Unchecked)
 
     def loadFile(self, filename=None, newFile: bool = True):
+        def get_label_file_path():
+            label_file = osp.splitext(filename)[0] + ImageLabel.suffix
+            if self.output_dir:
+                label_file_without_path = osp.basename(label_file)
+                label_file = osp.join(self.output_dir, label_file_without_path)
+
+            return label_file
+
         """Load the specified file, or the last opened file if None."""
         # changing fileListWidget loads file
         if filename in self.imageList and (
@@ -1562,27 +1570,27 @@ class MainWindow(QtWidgets.QMainWindow):
         if self.output_dir:
             label_file_without_path = osp.basename(label_file)
             label_file = osp.join(self.output_dir, label_file_without_path)
-        if QtCore.QFile.exists(label_file) and ImageLabel.is_label_file(
-            label_file
-        ):
-            try:
-                self.imageLabel = ImageLabel(label_file, self._config)
-            except LabelFileError as e:
-                self.errorMessage(
+
+        target_file = get_label_file_path()
+        if not QtCore.QFile.exists(target_file):
+            target_file = filename
+
+        try:
+            if newFile or not self.imageLabel:
+                self.imageLabel = ImageLabel(target_file, self._config)
+        except LabelFileError as e:
+            self.errorMessage(
                     self.tr("Error opening file"),
                     self.tr(
                         "<p><b>%s</b></p>"
-                        "<p>Make sure <i>%s</i> is a valid label file."
+                        "<p>Make sure <i>%s</i> is a valid file."
                     )
-                    % (e, label_file),
+                    % (e, target_file),
                 )
-                self.status(self.tr("Error reading %s") % label_file)
-                return False
-        else:
-            if newFile or not self.imageLabel:
-                self.imageLabel = ImageLabel(filename, self._config)
+            self.status(self.tr("Error reading %s") % target_file)
+            return False
 
-            self.updateFrameWidget()
+        self.updateFrameWidget()
         image = QtGui.QImage.fromData(self.imageLabel.current_frame_image_data)
 
         if image.isNull():
