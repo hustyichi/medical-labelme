@@ -977,7 +977,6 @@ class MainWindow(QtWidgets.QMainWindow):
         self.labelList.clear()
         self.filename = None
         self.imagePath = None
-        self.imageData = None
         self.otherData = None
         self.canvas.resetState()
 
@@ -1517,7 +1516,7 @@ class MainWindow(QtWidgets.QMainWindow):
 
     def brightnessContrast(self, value):
         dialog = BrightnessContrastDialog(
-            utils.img_data_to_pil(self.imageData),
+            utils.img_data_to_pil(self.imageLabel.current_frame_image_data),
             self.onNewBrightnessContrast,
             parent=self,
         )
@@ -1583,18 +1582,16 @@ class MainWindow(QtWidgets.QMainWindow):
                 )
                 self.status(self.tr("Error reading %s") % label_file)
                 return False
-            self.imageData = self.imageLabel.current_frame_image_data
             self.imagePath = self.imageLabel.image_path
             self.otherData = self.imageLabel.other_data
         else:
             if newFile or not self.imageLabel:
                 self.imageLabel = ImageLabel(filename, self._config)
 
-            self.imageData = self.imageLabel.current_frame_image_data
             self.updateFrameWidget()
-            if self.imageData:
+            if self.imageLabel.current_frame_image_data:
                 self.imagePath = filename
-        image = QtGui.QImage.fromData(self.imageData)
+        image = QtGui.QImage.fromData(self.imageLabel.current_frame_image_data)
 
         if image.isNull():
             formats = [
@@ -1639,7 +1636,7 @@ class MainWindow(QtWidgets.QMainWindow):
                 )
         # set brightness contrast values
         dialog = BrightnessContrastDialog(
-            utils.img_data_to_pil(self.imageData),
+            utils.img_data_to_pil(self.imageLabel.current_frame_image_data),
             self.onNewBrightnessContrast,
             parent=self,
         )
