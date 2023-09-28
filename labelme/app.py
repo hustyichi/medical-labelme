@@ -1288,44 +1288,6 @@ class MainWindow(QtWidgets.QMainWindow):
         self.canvas.loadShapes(shapes, replace=replace)
         self.imageLabel.load_shapes(shapes, replace=replace)
 
-    def loadLabels(self, shapes):
-        s = []
-        for shape in shapes:
-            label = shape["label"]
-            points = shape["points"]
-            shape_type = shape["shape_type"]
-            flags = shape["flags"]
-            description = shape.get("description", "")
-            group_id = shape["group_id"]
-            other_data = shape["other_data"]
-
-            if not points:
-                # skip point-empty shape
-                continue
-
-            shape = Shape(
-                label=label,
-                shape_type=shape_type,
-                group_id=group_id,
-                description=description,
-            )
-            for x, y in points:
-                shape.addPoint(QtCore.QPointF(x, y))
-            shape.close()
-
-            default_flags = {}
-            if self._config["label_flags"]:
-                for pattern, keys in self._config["label_flags"].items():
-                    if re.match(pattern, label):
-                        for key in keys:
-                            default_flags[key] = False
-            shape.flags = default_flags
-            shape.flags.update(flags)
-            shape.other_data = other_data
-
-            s.append(shape)
-        self.loadShapes(s)
-
     def loadFlags(self, flags):
         self.flag_widget.clear()
         for key, flag in flags.items():
