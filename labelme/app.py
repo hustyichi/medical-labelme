@@ -104,6 +104,11 @@ class MainWindow(QtWidgets.QMainWindow):
             crosshair=self._config["canvas"]["crosshair"],
         )
         self.canvas.zoomRequest.connect(self.zoomRequest)
+        self.canvas.scrollRequest.connect(self.scrollRequest)
+        self.canvas.newShape.connect(self.newShape)
+        self.canvas.shapeMoved.connect(self.setDirty)
+        self.canvas.selectionChanged.connect(self.shapeSelectionChanged)
+        self.canvas.drawingPolygon.connect(self.toggleDrawingSensitive)
 
         scrollArea = QtWidgets.QScrollArea()
         scrollArea.setWidget(self.canvas)
@@ -112,12 +117,6 @@ class MainWindow(QtWidgets.QMainWindow):
             Qt.Vertical: scrollArea.verticalScrollBar(),
             Qt.Horizontal: scrollArea.horizontalScrollBar(),
         }
-        self.canvas.scrollRequest.connect(self.scrollRequest)
-
-        self.canvas.newShape.connect(self.newShape)
-        self.canvas.shapeMoved.connect(self.setDirty)
-        self.canvas.selectionChanged.connect(self.shapeSelectionChanged)
-        self.canvas.drawingPolygon.connect(self.toggleDrawingSensitive)
 
         self.setCentralWidget(scrollArea)
 
