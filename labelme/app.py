@@ -90,62 +90,9 @@ class MainWindow(QtWidgets.QMainWindow):
             flags=self._config["label_flags"],
         )
 
-        self.labelList = LabelListWidget()
         self.lastOpenDir = None
 
-        self.flag_dock = self.flag_widget = None
-        self.flag_dock = QtWidgets.QDockWidget(self.tr("Flags"), self)
-        self.flag_dock.setObjectName("Flags")
-        self.flag_widget = QtWidgets.QListWidget()
-        if self._config["flags"]:
-            self.loadFlags({k: False for k in self._config["flags"]})
-        self.flag_dock.setWidget(self.flag_widget)
-        self.flag_widget.itemChanged.connect(self.setDirty)
-
-        self.labelList.itemSelectionChanged.connect(self.labelSelectionChanged)
-        self.labelList.itemDoubleClicked.connect(self.editLabel)
-        self.labelList.itemChanged.connect(self.labelItemChanged)
-        self.labelList.itemDropped.connect(self.labelOrderChanged)
-        self.shape_dock = QtWidgets.QDockWidget(
-            self.tr("Polygon Labels"), self
-        )
-        self.shape_dock.setObjectName("Labels")
-        self.shape_dock.setWidget(self.labelList)
-
-        self.uniqLabelList = UniqueLabelQListWidget()
-        self.uniqLabelList.setToolTip(
-            self.tr(
-                "Select label to start annotating for it. "
-                "Press 'Esc' to deselect."
-            )
-        )
-        if self._config["labels"]:
-            for label in self._config["labels"]:
-                item = self.uniqLabelList.createItemFromLabel(label)
-                self.uniqLabelList.addItem(item)
-                rgb = self._get_rgb_by_label(label)
-                self.uniqLabelList.setItemLabel(item, label, rgb)
-        self.label_dock = QtWidgets.QDockWidget(self.tr("Label List"), self)
-        self.label_dock.setObjectName("Label List")
-        self.label_dock.setWidget(self.uniqLabelList)
-
-        self.fileSearch = QtWidgets.QLineEdit()
-        self.fileSearch.setPlaceholderText(self.tr("Search Filename"))
-        self.fileSearch.textChanged.connect(self.fileSearchChanged)
-        self.fileListWidget = QtWidgets.QListWidget()
-        self.fileListWidget.itemSelectionChanged.connect(
-            self.fileSelectionChanged
-        )
-        fileListLayout = QtWidgets.QVBoxLayout()
-        fileListLayout.setContentsMargins(0, 0, 0, 0)
-        fileListLayout.setSpacing(0)
-        fileListLayout.addWidget(self.fileSearch)
-        fileListLayout.addWidget(self.fileListWidget)
-        self.file_dock = QtWidgets.QDockWidget(self.tr("File List"), self)
-        self.file_dock.setObjectName("Files")
-        fileListWidget = QtWidgets.QWidget()
-        fileListWidget.setLayout(fileListLayout)
-        self.file_dock.setWidget(fileListWidget)
+        self.initDockerWidgets()
 
         self.zoomWidget = ZoomWidget()
         self.setAcceptDrops(True)
@@ -174,22 +121,6 @@ class MainWindow(QtWidgets.QMainWindow):
 
         self.setCentralWidget(scrollArea)
 
-        features = QtWidgets.QDockWidget.DockWidgetFeatures()
-        for dock in ["flag_dock", "label_dock", "shape_dock", "file_dock"]:
-            if self._config[dock]["closable"]:
-                features = features | QtWidgets.QDockWidget.DockWidgetClosable
-            if self._config[dock]["floatable"]:
-                features = features | QtWidgets.QDockWidget.DockWidgetFloatable
-            if self._config[dock]["movable"]:
-                features = features | QtWidgets.QDockWidget.DockWidgetMovable
-            getattr(self, dock).setFeatures(features)
-            if self._config[dock]["show"] is False:
-                getattr(self, dock).setVisible(False)
-
-        self.addDockWidget(Qt.RightDockWidgetArea, self.flag_dock)
-        self.addDockWidget(Qt.RightDockWidgetArea, self.label_dock)
-        self.addDockWidget(Qt.RightDockWidgetArea, self.shape_dock)
-        self.addDockWidget(Qt.RightDockWidgetArea, self.file_dock)
 
         # Actions
         action = functools.partial(utils.newAction, self)
@@ -861,6 +792,93 @@ class MainWindow(QtWidgets.QMainWindow):
         # self.firstStart = True
         # if self.firstStart:
         #    QWhatsThis.enterWhatsThisMode()
+
+    def initFlagsDocker(self):
+        self.flag_dock = self.flag_widget = None
+        self.flag_dock = QtWidgets.QDockWidget(self.tr("Flags"), self)
+        self.flag_dock.setObjectName("Flags")
+        self.flag_widget = QtWidgets.QListWidget()
+        if self._config["flags"]:
+            self.loadFlags({k: False for k in self._config["flags"]})
+        self.flag_dock.setWidget(self.flag_widget)
+        self.flag_widget.itemChanged.connect(self.setDirty)
+
+    def initLabelsDocker(self):
+        self.uniqLabelList = UniqueLabelQListWidget()
+        self.uniqLabelList.setToolTip(
+            self.tr(
+                "Select label to start annotating for it. "
+                "Press 'Esc' to deselect."
+            )
+        )
+        if self._config["labels"]:
+            for label in self._config["labels"]:
+                item = self.uniqLabelList.createItemFromLabel(label)
+                self.uniqLabelList.addItem(item)
+                rgb = self._get_rgb_by_label(label)
+                self.uniqLabelList.setItemLabel(item, label, rgb)
+        self.label_dock = QtWidgets.QDockWidget(self.tr("Label List"), self)
+        self.label_dock.setObjectName("Label List")
+        self.label_dock.setWidget(self.uniqLabelList)
+
+    def initShapeDocker(self):
+        self.labelList = LabelListWidget()
+        self.labelList.itemSelectionChanged.connect(self.labelSelectionChanged)
+        self.labelList.itemDoubleClicked.connect(self.editLabel)
+        self.labelList.itemChanged.connect(self.labelItemChanged)
+        self.labelList.itemDropped.connect(self.labelOrderChanged)
+        self.shape_dock = QtWidgets.QDockWidget(
+            self.tr("Polygon Labels"), self
+        )
+        self.shape_dock.setObjectName("Labels")
+        self.shape_dock.setWidget(self.labelList)
+
+    def initFileDocker(self):
+        self.fileSearch = QtWidgets.QLineEdit()
+        self.fileSearch.setPlaceholderText(self.tr("Search Filename"))
+        self.fileSearch.textChanged.connect(self.fileSearchChanged)
+
+        self.fileListWidget = QtWidgets.QListWidget()
+        self.fileListWidget.itemSelectionChanged.connect(
+            self.fileSelectionChanged
+        )
+
+        fileListLayout = QtWidgets.QVBoxLayout()
+        fileListLayout.setContentsMargins(0, 0, 0, 0)
+        fileListLayout.setSpacing(0)
+        fileListLayout.addWidget(self.fileSearch)
+        fileListLayout.addWidget(self.fileListWidget)
+
+        fileWidget = QtWidgets.QWidget()
+        fileWidget.setLayout(fileListLayout)
+
+        self.file_dock = QtWidgets.QDockWidget(self.tr("File List"), self)
+        self.file_dock.setObjectName("Files")
+        self.file_dock.setWidget(fileWidget)
+
+    def initDockerWidgets(self):
+        self.initFlagsDocker()
+        self.initLabelsDocker()
+        self.initShapeDocker()
+        self.initFileDocker()
+
+        features = QtWidgets.QDockWidget.DockWidgetFeatures()
+        for dock in ["flag_dock", "label_dock", "shape_dock", "file_dock"]:
+            if self._config[dock]["closable"]:
+                features = features | QtWidgets.QDockWidget.DockWidgetClosable
+            if self._config[dock]["floatable"]:
+                features = features | QtWidgets.QDockWidget.DockWidgetFloatable
+            if self._config[dock]["movable"]:
+                features = features | QtWidgets.QDockWidget.DockWidgetMovable
+            getattr(self, dock).setFeatures(features)
+            if self._config[dock]["show"] is False:
+                getattr(self, dock).setVisible(False)
+
+        self.addDockWidget(Qt.RightDockWidgetArea, self.flag_dock)
+        self.addDockWidget(Qt.RightDockWidgetArea, self.label_dock)
+        self.addDockWidget(Qt.RightDockWidgetArea, self.shape_dock)
+        self.addDockWidget(Qt.RightDockWidgetArea, self.file_dock)
+
 
     def menu(self, title, actions=None):
         menu = self.menuBar().addMenu(title)
