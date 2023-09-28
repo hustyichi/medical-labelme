@@ -416,3 +416,23 @@ def make_shape(formated_shape: dict, label_flags_config: Optional[dict] = None):
     shape.close()
 
     return shape
+
+
+def update_shape_default_values(app_config: dict):
+    Shape.line_color = QtGui.QColor(*app_config["shape"]["line_color"])
+    Shape.fill_color = QtGui.QColor(*app_config["shape"]["fill_color"])
+    Shape.select_line_color = QtGui.QColor(
+        *app_config["shape"]["select_line_color"]
+    )
+    Shape.select_fill_color = QtGui.QColor(
+        *app_config["shape"]["select_fill_color"]
+    )
+    Shape.vertex_fill_color = QtGui.QColor(
+        *app_config["shape"]["vertex_fill_color"]
+    )
+    Shape.hvertex_fill_color = QtGui.QColor(
+        *app_config["shape"]["hvertex_fill_color"]
+    )
+
+    # Set point size from config file
+    Shape.point_size = app_config["shape"]["point_size"]

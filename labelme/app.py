@@ -24,6 +24,7 @@ from labelme.label_file import ImageLabel
 from labelme.label_file import LabelFileError
 from labelme.logger import logger
 from labelme.shape import Shape
+from labelme.shape import update_shape_default_values
 from labelme.widgets import BrightnessContrastDialog
 from labelme.widgets import Canvas
 from labelme.widgets import FileDialogPreview
@@ -66,24 +67,7 @@ class MainWindow(QtWidgets.QMainWindow):
         # see labelme/config/default_config.yaml for valid configuration
         self._config = get_config() if config is None else config
 
-        # set default shape colors
-        Shape.line_color = QtGui.QColor(*self._config["shape"]["line_color"])
-        Shape.fill_color = QtGui.QColor(*self._config["shape"]["fill_color"])
-        Shape.select_line_color = QtGui.QColor(
-            *self._config["shape"]["select_line_color"]
-        )
-        Shape.select_fill_color = QtGui.QColor(
-            *self._config["shape"]["select_fill_color"]
-        )
-        Shape.vertex_fill_color = QtGui.QColor(
-            *self._config["shape"]["vertex_fill_color"]
-        )
-        Shape.hvertex_fill_color = QtGui.QColor(
-            *self._config["shape"]["hvertex_fill_color"]
-        )
-
-        # Set point size from config file
-        Shape.point_size = self._config["shape"]["point_size"]
+        update_shape_default_values(self._config)
 
         super(MainWindow, self).__init__()
         self.setWindowTitle(__appname__)
