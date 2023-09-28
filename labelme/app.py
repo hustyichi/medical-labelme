@@ -1530,7 +1530,7 @@ class MainWindow(QtWidgets.QMainWindow):
         )
 
         target_file = get_label_file_path()
-        if not QtCore.QFile.exists(target_file):
+        if not ImageLabel.is_matched_label_file(filename, target_file):
             target_file = filename
 
         try:

@@ -274,6 +274,21 @@ class ImageLabel(object):
     def is_label_file(file_path):
         return osp.splitext(file_path)[1].lower() == ImageLabel.suffix
 
+    @staticmethod
+    def is_matched_label_file(image_path: str, label_path: str):
+        if not (osp.exists(image_path) and osp.exists(label_path)):
+            return False
+
+        try:
+            with open(label_path, "r") as f:
+                data = json.load(f)
+                relative_image_path = data.pop("imagePath")
+        except Exception as e:
+            return False
+
+        matched_image_path = osp.join(osp.dirname(label_path), relative_image_path)
+        return osp.samefile(image_path, matched_image_path)
+
 
 # deprecated, use ImageLabel
 class LabelFile(object):
