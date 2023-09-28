@@ -64,9 +64,7 @@ class MainWindow(QtWidgets.QMainWindow):
                 output_file = output
 
         # see labelme/config/default_config.yaml for valid configuration
-        if config is None:
-            config = get_config()
-        self._config = config
+        self._config = get_config() if config is None else config
 
         # set default shape colors
         Shape.line_color = QtGui.QColor(*self._config["shape"]["line_color"])
@@ -115,8 +113,8 @@ class MainWindow(QtWidgets.QMainWindow):
         self.flag_dock = QtWidgets.QDockWidget(self.tr("Flags"), self)
         self.flag_dock.setObjectName("Flags")
         self.flag_widget = QtWidgets.QListWidget()
-        if config["flags"]:
-            self.loadFlags({k: False for k in config["flags"]})
+        if self._config["flags"]:
+            self.loadFlags({k: False for k in self._config["flags"]})
         self.flag_dock.setWidget(self.flag_widget)
         self.flag_widget.itemChanged.connect(self.setDirty)
 
@@ -847,8 +845,8 @@ class MainWindow(QtWidgets.QMainWindow):
         else:
             self.filename = filename
 
-        if config["file_search"]:
-            self.fileSearch.setText(config["file_search"])
+        if self._config["file_search"]:
+            self.fileSearch.setText(self._config["file_search"])
             self.fileSearchChanged()
 
         # XXX: Could be completely declarative.
