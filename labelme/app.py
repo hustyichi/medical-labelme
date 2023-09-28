@@ -1528,10 +1528,6 @@ class MainWindow(QtWidgets.QMainWindow):
         self.status(
             str(self.tr("Loading %s...")) % osp.basename(str(filename))
         )
-        label_file = osp.splitext(filename)[0] + ".json"
-        if self.output_dir:
-            label_file_without_path = osp.basename(label_file)
-            label_file = osp.join(self.output_dir, label_file_without_path)
 
         target_file = get_label_file_path()
         if not QtCore.QFile.exists(target_file):
