@@ -14,6 +14,7 @@ a = Analysis(
     datas=[
         ('labelme/config/default_config.yaml', 'labelme/config'),
         ('labelme/icons/*', 'labelme/icons'),
+        ('labelme/translate/*', 'translate'),
     ],
     hiddenimports=['pydicom.encoders.gdcm', 'pydicom.encoders.pylibjpeg'],
     hookspath=[],
