@@ -174,7 +174,7 @@ class MainWindow(QtWidgets.QMainWindow):
             self.openPrevFrame,
             None,
             "prev",
-            self.tr("Open next frame"),
+            self.tr("Open prev frame"),
             enabled=False,
         )
         save = action(
