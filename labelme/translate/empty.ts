@@ -1,19 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS><TS version="2.0">
+<!DOCTYPE TS>
+<TS version="2.1">
+<context>
+    <name>BrightnessContrastDialog</name>
+    <message>
+        <location filename="../widgets/brightness_contrast_dialog.py" line="20"/>
+        <source>Brightness</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../widgets/brightness_contrast_dialog.py" line="21"/>
+        <source>Contrast</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
 <context>
     <name>Canvas</name>
     <message>
-        <location filename="../widgets/canvas.py" line="235"/>
+        <location filename="../widgets/canvas.py" line="338"/>
         <source>Image</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../widgets/canvas.py" line="249"/>
+        <location filename="../widgets/canvas.py" line="353"/>
         <source>Click &amp; drag to move point</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../widgets/canvas.py" line="259"/>
+        <location filename="../widgets/canvas.py" line="365"/>
+        <source>Click to create point</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../widgets/canvas.py" line="377"/>
         <source>Click &amp; drag to move shape &apos;%s&apos;</source>
         <translation type="unfinished"></translation>
     </message>
@@ -21,584 +40,574 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../app.py" line="91"/>
-        <source>Flags</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../app.py" line="107"/>
-        <source>Polygon Labels</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../app.py" line="112"/>
-        <source>Select label to start annotating for it. Press &apos;Esc&apos; to deselect.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../app.py" line="118"/>
-        <source>Label List</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../app.py" line="123"/>
-        <source>Search Filename</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../app.py" line="134"/>
-        <source>File List</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../app.py" line="184"/>
+        <location filename="../app.py" line="127"/>
         <source>&amp;Quit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../app.py" line="184"/>
+        <location filename="../app.py" line="127"/>
         <source>Quit application</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../app.py" line="186"/>
+        <location filename="../app.py" line="134"/>
         <source>&amp;Open</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../app.py" line="186"/>
+        <location filename="../app.py" line="134"/>
         <source>Open image or label file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../app.py" line="188"/>
+        <location filename="../app.py" line="141"/>
         <source>&amp;Open Dir</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../app.py" line="188"/>
+        <location filename="../app.py" line="141"/>
         <source>Open Dir</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../app.py" line="190"/>
+        <location filename="../app.py" line="148"/>
         <source>&amp;Next Image</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../app.py" line="190"/>
+        <location filename="../app.py" line="148"/>
         <source>Open next (hold Ctl+Shift to copy labels)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../app.py" line="198"/>
+        <location filename="../app.py" line="156"/>
         <source>&amp;Prev Image</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../app.py" line="198"/>
+        <location filename="../app.py" line="156"/>
         <source>Open prev (hold Ctl+Shift to copy labels)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../app.py" line="206"/>
+        <location filename="../app.py" line="164"/>
+        <source>&amp;Next Frame</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../app.py" line="172"/>
+        <source>Open next frame</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../app.py" line="172"/>
+        <source>&amp;Prev Frame</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../app.py" line="180"/>
         <source>&amp;Save</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../app.py" line="206"/>
+        <location filename="../app.py" line="180"/>
         <source>Save labels to file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../app.py" line="208"/>
+        <location filename="../app.py" line="188"/>
         <source>&amp;Save As</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../app.py" line="208"/>
+        <location filename="../app.py" line="188"/>
         <source>Save labels to a different file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../app.py" line="212"/>
+        <location filename="../app.py" line="197"/>
         <source>&amp;Delete File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../app.py" line="212"/>
+        <location filename="../app.py" line="197"/>
         <source>Delete current label file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../app.py" line="220"/>
+        <location filename="../app.py" line="206"/>
         <source>&amp;Change Output Dir</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../app.py" line="220"/>
+        <location filename="../app.py" line="206"/>
         <source>Change where annotations are loaded/saved</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../app.py" line="228"/>
+        <location filename="../app.py" line="214"/>
         <source>Save &amp;Automatically</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../app.py" line="228"/>
+        <location filename="../app.py" line="214"/>
         <source>Save automatically</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../app.py" line="238"/>
-        <source>&amp;Close</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../app.py" line="238"/>
-        <source>Close current file</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../app.py" line="240"/>
-        <source>Polygon &amp;Line Color</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../app.py" line="240"/>
-        <source>Choose polygon line color</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../app.py" line="243"/>
-        <source>Polygon &amp;Fill Color</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../app.py" line="243"/>
-        <source>Choose polygon fill color</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../app.py" line="247"/>
         <source>Keep Previous Annotation</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../app.py" line="247"/>
+        <location filename="../app.py" line="240"/>
         <source>Toggle &quot;keep pevious annotation&quot; mode</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../app.py" line="255"/>
+        <location filename="../app.py" line="250"/>
         <source>Create Polygons</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../app.py" line="255"/>
+        <location filename="../app.py" line="250"/>
         <source>Start drawing polygons</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../app.py" line="263"/>
+        <location filename="../app.py" line="258"/>
         <source>Create Rectangle</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../app.py" line="263"/>
+        <location filename="../app.py" line="258"/>
         <source>Start drawing rectangles</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../app.py" line="271"/>
+        <location filename="../app.py" line="266"/>
         <source>Create Circle</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../app.py" line="271"/>
+        <location filename="../app.py" line="266"/>
         <source>Start drawing circles</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../app.py" line="279"/>
+        <location filename="../app.py" line="274"/>
         <source>Create Line</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../app.py" line="279"/>
+        <location filename="../app.py" line="274"/>
         <source>Start drawing lines</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../app.py" line="287"/>
+        <location filename="../app.py" line="282"/>
         <source>Create Point</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../app.py" line="287"/>
+        <location filename="../app.py" line="282"/>
         <source>Start drawing points</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../app.py" line="295"/>
+        <location filename="../app.py" line="290"/>
         <source>Create LineStrip</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../app.py" line="295"/>
+        <location filename="../app.py" line="290"/>
         <source>Start drawing linestrip. Ctrl+LeftClick ends creation.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../app.py" line="303"/>
+        <location filename="../app.py" line="298"/>
+        <source>Create AI-Polygon</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../app.py" line="298"/>
+        <source>Start drawing ai_polygon. Ctrl+LeftClick ends creation.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../app.py" line="306"/>
         <source>Edit Polygons</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../app.py" line="303"/>
+        <location filename="../app.py" line="306"/>
         <source>Move and edit the selected polygons</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../app.py" line="307"/>
+        <location filename="../app.py" line="315"/>
         <source>Delete Polygons</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../app.py" line="307"/>
+        <location filename="../app.py" line="315"/>
         <source>Delete the selected polygons</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../app.py" line="310"/>
+        <location filename="../app.py" line="323"/>
         <source>Duplicate Polygons</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../app.py" line="310"/>
+        <location filename="../app.py" line="323"/>
         <source>Create a duplicate of the selected polygons</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../app.py" line="314"/>
+        <location filename="../app.py" line="331"/>
+        <source>Copy Polygons</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../app.py" line="331"/>
+        <source>Copy selected polygons to clipboard</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../app.py" line="339"/>
+        <source>Paste Polygons</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../app.py" line="339"/>
+        <source>Paste copied polygons</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../app.py" line="347"/>
         <source>Undo last point</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../app.py" line="314"/>
+        <location filename="../app.py" line="347"/>
         <source>Undo last drawn point</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../app.py" line="317"/>
-        <source>Add Point to Edge</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../app.py" line="317"/>
-        <source>Add point to the nearest edge</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../app.py" line="321"/>
+        <location filename="../app.py" line="364"/>
         <source>Undo</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../app.py" line="321"/>
+        <location filename="../app.py" line="364"/>
         <source>Undo last add and edit of shape</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../app.py" line="324"/>
+        <location filename="../app.py" line="373"/>
         <source>&amp;Hide
 Polygons</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../app.py" line="324"/>
+        <location filename="../app.py" line="373"/>
         <source>Hide all polygons</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../app.py" line="327"/>
+        <location filename="../app.py" line="380"/>
         <source>&amp;Show
 Polygons</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../app.py" line="327"/>
+        <location filename="../app.py" line="380"/>
         <source>Show all polygons</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../app.py" line="331"/>
+        <location filename="../app.py" line="388"/>
         <source>&amp;Tutorial</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../app.py" line="331"/>
+        <location filename="../app.py" line="388"/>
         <source>Show tutorial page</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../app.py" line="336"/>
+        <location filename="../app.py" line="404"/>
         <source>Zoom in or out of the image. Also accessible with {} and {} from the canvas.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../app.py" line="336"/>
+        <location filename="../app.py" line="404"/>
         <source>Ctrl+Wheel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../app.py" line="350"/>
+        <location filename="../app.py" line="419"/>
         <source>Zoom &amp;In</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../app.py" line="350"/>
+        <location filename="../app.py" line="419"/>
         <source>Increase zoom level</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../app.py" line="353"/>
+        <location filename="../app.py" line="427"/>
         <source>&amp;Zoom Out</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../app.py" line="353"/>
+        <location filename="../app.py" line="427"/>
         <source>Decrease zoom level</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../app.py" line="356"/>
+        <location filename="../app.py" line="435"/>
         <source>&amp;Original size</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../app.py" line="356"/>
+        <location filename="../app.py" line="435"/>
         <source>Zoom to original size</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../app.py" line="360"/>
+        <location filename="../app.py" line="443"/>
+        <source>&amp;Keep Previous Scale</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../app.py" line="443"/>
+        <source>Keep previous zoom scale</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../app.py" line="451"/>
         <source>&amp;Fit Window</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../app.py" line="360"/>
+        <location filename="../app.py" line="451"/>
         <source>Zoom follows window size</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../app.py" line="364"/>
+        <location filename="../app.py" line="460"/>
         <source>Fit &amp;Width</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../app.py" line="364"/>
+        <location filename="../app.py" line="460"/>
         <source>Zoom follows window width</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../app.py" line="380"/>
+        <location filename="../app.py" line="495"/>
         <source>&amp;Edit Label</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../app.py" line="380"/>
+        <location filename="../app.py" line="495"/>
         <source>Modify the label of the selected polygon</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../app.py" line="384"/>
-        <source>Shape &amp;Line Color</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../app.py" line="384"/>
-        <source>Change the line color for this specific shape</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../app.py" line="387"/>
-        <source>Shape &amp;Fill Color</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../app.py" line="387"/>
-        <source>Change the fill color for this specific shape</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../app.py" line="390"/>
+        <location filename="../app.py" line="504"/>
         <source>Fill Drawing Polygon</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../app.py" line="390"/>
+        <location filename="../app.py" line="504"/>
         <source>Fill polygon while drawing</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../app.py" line="467"/>
+        <location filename="../app.py" line="615"/>
         <source>&amp;File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../app.py" line="467"/>
+        <location filename="../app.py" line="615"/>
         <source>&amp;Edit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../app.py" line="467"/>
+        <location filename="../app.py" line="615"/>
         <source>&amp;View</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../app.py" line="467"/>
+        <location filename="../app.py" line="615"/>
         <source>&amp;Help</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../app.py" line="467"/>
+        <location filename="../app.py" line="615"/>
         <source>Open &amp;Recent</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../app.py" line="553"/>
+        <location filename="../app.py" line="696"/>
+        <source>AI Model</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../app.py" line="732"/>
         <source>%s started.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../app.py" line="1091"/>
-        <source>Invalid label</source>
+        <location filename="../app.py" line="797"/>
+        <source>Flags</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../app.py" line="1091"/>
-        <source>Invalid label &apos;{}&apos; with validation type &apos;{}&apos;</source>
+        <location filename="../app.py" line="807"/>
+        <source>Select label to start annotating for it. Press &apos;Esc&apos; to deselect.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../app.py" line="1032"/>
-        <source>Error saving label data</source>
+        <location filename="../app.py" line="819"/>
+        <source>Label List</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../app.py" line="1032"/>
-        <source>&lt;b&gt;%s&lt;/b&gt;</source>
+        <location filename="../app.py" line="829"/>
+        <source>Polygon Labels</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../app.py" line="1213"/>
-        <source>Error opening file</source>
+        <location filename="../app.py" line="837"/>
+        <source>Search Filename</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../app.py" line="1172"/>
-        <source>No such file: &lt;b&gt;%s&lt;/b&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../app.py" line="1176"/>
-        <source>Loading %s...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../app.py" line="1186"/>
-        <source>&lt;p&gt;&lt;b&gt;%s&lt;/b&gt;&lt;/p&gt;&lt;p&gt;Make sure &lt;i&gt;%s&lt;/i&gt; is a valid label file.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../app.py" line="1218"/>
-        <source>Error reading %s</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../app.py" line="1213"/>
-        <source>&lt;p&gt;Make sure &lt;i&gt;{0}&lt;/i&gt; is a valid image file.&lt;br/&gt;Supported image formats: {1}&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../app.py" line="1239"/>
-        <source>Loaded %s</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../app.py" line="1352"/>
-        <source>Image &amp; Label files (%s)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../app.py" line="1354"/>
-        <source>%s - Choose Image or Label file</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../app.py" line="1370"/>
-        <source>%s - Save/Load Annotations in Directory</source>
+        <location filename="../app.py" line="854"/>
+        <source>File List</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../app.py" line="1383"/>
+        <source>Invalid label</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../app.py" line="1383"/>
+        <source>Invalid label &apos;{}&apos; with validation type &apos;{}&apos;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../app.py" line="1322"/>
+        <source>Error saving label data</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../app.py" line="1322"/>
+        <source>&lt;b&gt;%s&lt;/b&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../app.py" line="1558"/>
+        <source>Error opening file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../app.py" line="1522"/>
+        <source>No such file: &lt;b&gt;%s&lt;/b&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../app.py" line="1528"/>
+        <source>Loading %s...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../app.py" line="1540"/>
+        <source>&lt;p&gt;&lt;b&gt;%s&lt;/b&gt;&lt;/p&gt;&lt;p&gt;Make sure &lt;i&gt;%s&lt;/i&gt; is a valid file.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../app.py" line="1565"/>
+        <source>Error reading %s</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../app.py" line="1558"/>
+        <source>&lt;p&gt;Make sure &lt;i&gt;{0}&lt;/i&gt; is a valid image file.&lt;br/&gt;Supported image formats: {1}&lt;/p&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../app.py" line="1623"/>
+        <source>Loaded %s</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../app.py" line="1767"/>
+        <source>Image &amp; Label files (%s)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../app.py" line="1773"/>
+        <source>%s - Choose Image or Label file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../app.py" line="1790"/>
+        <source>%s - Save/Load Annotations in Directory</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../app.py" line="1804"/>
         <source>%s . Annotations will be saved/loaded in %s</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../app.py" line="1415"/>
+        <location filename="../app.py" line="1835"/>
         <source>%s - Choose File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../app.py" line="1438"/>
+        <location filename="../app.py" line="1858"/>
         <source>Label files (*%s)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../app.py" line="1438"/>
+        <location filename="../app.py" line="1858"/>
         <source>Choose File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../app.py" line="1470"/>
+        <location filename="../app.py" line="1892"/>
         <source>You are about to permanently delete this label file, proceed anyway?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../app.py" line="1553"/>
+        <location filename="../app.py" line="1977"/>
         <source>Attention</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../app.py" line="1506"/>
+        <location filename="../app.py" line="1931"/>
         <source>Save annotations to &quot;{}&quot; before closing?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../app.py" line="1507"/>
+        <location filename="../app.py" line="1934"/>
         <source>Save annotations?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../app.py" line="1562"/>
-        <source>Choose line color</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../app.py" line="1571"/>
-        <source>Choose fill color</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../app.py" line="1551"/>
+        <location filename="../app.py" line="1973"/>
         <source>You are about to permanently delete {} polygons, proceed anyway?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../app.py" line="1601"/>
+        <location filename="../app.py" line="2009"/>
         <source>%s - Open Directory</source>
         <translation type="unfinished"></translation>
     </message>
