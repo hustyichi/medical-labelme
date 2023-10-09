@@ -1907,16 +1907,6 @@ class MainWindow(QtWidgets.QMainWindow):
 
             self.resetState()
 
-    # Message Dialogs. #
-    def hasLabels(self):
-        if self.noShapes():
-            self.errorMessage(
-                "No objects labeled",
-                "You must label at least one object to save the file.",
-            )
-            return False
-        return True
-
     def hasLabelFile(self):
         if self.filename is None:
             return False
