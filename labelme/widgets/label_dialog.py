@@ -30,7 +30,6 @@ class LabelQLineEdit(QtWidgets.QLineEdit):
 class LabelDialog(QtWidgets.QDialog):
     def __init__(
         self,
-        text="Enter object label",
         parent=None,
         labels=None,
         sort_labels=True,
@@ -45,13 +44,13 @@ class LabelDialog(QtWidgets.QDialog):
 
         super(LabelDialog, self).__init__(parent)
         self.edit = LabelQLineEdit()
-        self.edit.setPlaceholderText(text)
+        self.edit.setPlaceholderText(self.tr("Enter object label"))
         self.edit.setValidator(labelme.utils.labelValidator())
         self.edit.editingFinished.connect(self.postProcess)
         if flags:
             self.edit.textChanged.connect(self.updateFlags)
         self.edit_group_id = QtWidgets.QLineEdit()
-        self.edit_group_id.setPlaceholderText("Group ID")
+        self.edit_group_id.setPlaceholderText(self.tr("Group ID"))
         self.edit_group_id.setValidator(
             QtGui.QRegExpValidator(QtCore.QRegExp(r"\d*"), None)
         )
@@ -69,6 +68,8 @@ class LabelDialog(QtWidgets.QDialog):
         )
         bb.button(bb.Ok).setIcon(labelme.utils.newIcon("done"))
         bb.button(bb.Cancel).setIcon(labelme.utils.newIcon("undo"))
+        bb.button(bb.Ok).setText(self.tr("Ok"))
+        bb.button(bb.Cancel).setText(self.tr("Cancel"))
         bb.accepted.connect(self.validate)
         bb.rejected.connect(self.reject)
         layout.addWidget(bb)
@@ -106,7 +107,7 @@ class LabelDialog(QtWidgets.QDialog):
         self.edit.textChanged.connect(self.updateFlags)
         # text edit
         self.editDescription = QtWidgets.QTextEdit()
-        self.editDescription.setPlaceholderText("Label description")
+        self.editDescription.setPlaceholderText(self.tr("Label description"))
         self.editDescription.setFixedHeight(50)
         layout.addWidget(self.editDescription)
         self.setLayout(layout)
