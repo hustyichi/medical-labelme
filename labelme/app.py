@@ -5,8 +5,8 @@ import html
 import math
 import os
 import os.path as osp
-import re
 import webbrowser
+from typing import Callable
 
 import imgviz
 import natsort
@@ -1888,24 +1888,22 @@ class MainWindow(QtWidgets.QMainWindow):
         return label_file
 
     def deleteFile(self):
-        mb = QtWidgets.QMessageBox
+        def doDeleteFile():
+            label_file = self.getLabelFile()
+            if osp.exists(label_file):
+                os.remove(label_file)
+                logger.info("Label file is removed: {}".format(label_file))
+
+                item = self.fileListWidget.currentItem()
+                item.setCheckState(Qt.Unchecked)
+
+                self.resetState()
+
         msg = self.tr(
             "You are about to permanently delete this label file, "
             "proceed anyway?"
         )
-        answer = mb.warning(self, self.tr("Attention"), msg, mb.Yes | mb.No)
-        if answer != mb.Yes:
-            return
-
-        label_file = self.getLabelFile()
-        if osp.exists(label_file):
-            os.remove(label_file)
-            logger.info("Label file is removed: {}".format(label_file))
-
-            item = self.fileListWidget.currentItem()
-            item.setCheckState(Qt.Unchecked)
-
-            self.resetState()
+        self.showAlertDialog(self.tr("Attention"), msg, doDeleteFile)
 
     def hasLabelFile(self):
         if self.filename is None:
@@ -1966,20 +1964,39 @@ class MainWindow(QtWidgets.QMainWindow):
                     action.setEnabled(False)
         self.setDirty()
 
+    def showAlertDialog(self, title: str, msg: str, yesAction: Callable):
+        box = QtWidgets.QMessageBox()
+        box.setIcon(QtWidgets.QMessageBox.Warning)
+        box.setWindowTitle(title)
+        box.setText(msg)
+        box.setStandardButtons(QtWidgets.QMessageBox.Yes | QtWidgets.QMessageBox.No)
+
+        buttonYes = box.button(QtWidgets.QMessageBox.Yes)
+        buttonYes.setText(self.tr("Yes"))
+        buttonNo = box.button(QtWidgets.QMessageBox.No)
+        buttonNo.setText(self.tr("No"))
+        box.exec_()
+
+        if box.clickedButton() == buttonYes:
+            yesAction()
+            return True
+        else:
+            return False
+
+
     def deleteSelectedShape(self):
-        yes, no = QtWidgets.QMessageBox.Yes, QtWidgets.QMessageBox.No
-        msg = self.tr(
-            "You are about to permanently delete {} polygons, "
-            "proceed anyway?"
-        ).format(len(self.canvas.selectedShapes))
-        if yes == QtWidgets.QMessageBox.warning(
-            self, self.tr("Attention"), msg, yes | no, yes
-        ):
+        def doDeleteShape():
             self.remLabels(self.canvas.deleteSelected())
             self.setDirty()
             if self.noShapes():
                 for action in self.actions.onShapesPresent:
                     action.setEnabled(False)
+
+        msg = self.tr(
+            "You are about to permanently delete {} polygons, "
+            "proceed anyway?"
+        ).format(len(self.canvas.selectedShapes))
+        self.showAlertDialog(self.tr("Attention"), msg, doDeleteShape)
 
     def copyShape(self):
         self.canvas.endMove(copy=True)
