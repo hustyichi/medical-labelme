@@ -615,32 +615,32 @@ Polygons</source>
         <translation>选择文件</translation>
     </message>
     <message>
-        <location filename="../app.py" line="1892"/>
+        <location filename="../app.py" line="1902"/>
         <source>You are about to permanently delete this label file, proceed anyway?</source>
         <translation>即将永久性删除此标签文件。还要继续吗?</translation>
     </message>
     <message>
-        <location filename="../app.py" line="1975"/>
+        <location filename="../app.py" line="1999"/>
         <source>Attention</source>
         <translation>注意</translation>
     </message>
     <message>
-        <location filename="../app.py" line="1921"/>
+        <location filename="../app.py" line="1919"/>
         <source>Save annotations to &quot;{}&quot; before closing?</source>
         <translation>关闭前保存批注到&quot;{}&quot;吗?</translation>
     </message>
     <message>
-        <location filename="../app.py" line="1927"/>
+        <location filename="../app.py" line="1925"/>
         <source>Save annotations?</source>
         <translation>保存批注吗?</translation>
     </message>
     <message>
-        <location filename="../app.py" line="1971"/>
+        <location filename="../app.py" line="1995"/>
         <source>You are about to permanently delete {} polygons, proceed anyway?</source>
-        <translation>即将永久性删除多边形{}。还要继续吗?</translation>
+        <translation>即将永久性删除 {} 个多边形。还要继续吗?</translation>
     </message>
     <message>
-        <location filename="../app.py" line="2007"/>
+        <location filename="../app.py" line="2024"/>
         <source>%s - Open Directory</source>
         <translation>%s - 打开目录</translation>
     </message>
@@ -690,18 +690,38 @@ Polygons</source>
         <translation>调整亮度和对比度</translation>
     </message>
     <message>
-        <location filename="../app.py" line="1932"/>
+        <location filename="../app.py" line="1930"/>
         <source>Save</source>
         <translation>保存</translation>
     </message>
     <message>
-        <location filename="../app.py" line="1934"/>
+        <location filename="../app.py" line="1932"/>
         <source>Discard</source>
         <translation>废弃</translation>
     </message>
     <message>
-        <location filename="../app.py" line="1936"/>
+        <location filename="../app.py" line="1934"/>
         <source>Cancel</source>
+        <translation>取消</translation>
+    </message>
+    <message>
+        <location filename="../app.py" line="673"/>
+        <source>&amp;Copy here</source>
+        <translation>&amp;复制到这里</translation>
+    </message>
+    <message>
+        <location filename="../app.py" line="673"/>
+        <source>&amp;Move here</source>
+        <translation>&amp;移动到这里</translation>
+    </message>
+    <message>
+        <location filename="../app.py" line="1975"/>
+        <source>Yes</source>
+        <translation>确定</translation>
+    </message>
+    <message>
+        <location filename="../app.py" line="1977"/>
+        <source>No</source>
         <translation>取消</translation>
     </message>
 </context>
