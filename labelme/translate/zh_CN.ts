@@ -38,6 +38,34 @@
     </message>
 </context>
 <context>
+    <name>LabelDialog</name>
+    <message>
+        <location filename="../widgets/label_dialog.py" line="47"/>
+        <source>Enter object label</source>
+        <translation>输入标签</translation>
+    </message>
+    <message>
+        <location filename="../widgets/label_dialog.py" line="53"/>
+        <source>Group ID</source>
+        <translation>组编号</translation>
+    </message>
+    <message>
+        <location filename="../widgets/label_dialog.py" line="71"/>
+        <source>Ok</source>
+        <translation>确定</translation>
+    </message>
+    <message>
+        <location filename="../widgets/label_dialog.py" line="72"/>
+        <source>Cancel</source>
+        <translation>取消</translation>
+    </message>
+    <message>
+        <location filename="../widgets/label_dialog.py" line="110"/>
+        <source>Label description</source>
+        <translation>标签描述</translation>
+    </message>
+</context>
+<context>
     <name>MainWindow</name>
     <message>
         <location filename="../app.py" line="127"/>
