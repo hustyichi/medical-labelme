@@ -6,7 +6,7 @@ import math
 import os
 import os.path as osp
 import webbrowser
-from typing import Callable
+from typing import Callable, List
 
 import imgviz
 import natsort
@@ -1219,7 +1219,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.actions.copy.setEnabled(n_selected)
         self.actions.edit.setEnabled(n_selected == 1)
 
-    def addLabel(self, shape):
+    def addLabel(self, shape: Shape):
         if shape.group_id is None:
             text = shape.label
         else:
@@ -1278,7 +1278,7 @@ class MainWindow(QtWidgets.QMainWindow):
             self.labelList.removeItem(item)
         self.imageLabel.remove_shapes(shapes)
 
-    def loadShapes(self, shapes, replace=True):
+    def loadShapes(self, shapes: List[Shape], replace: bool = True):
         self._noSelectionSlot = True
         for shape in shapes:
             self.addLabel(shape)
@@ -1329,6 +1329,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.labelList.clearSelection()
         for shape in added_shapes:
             self.addLabel(shape)
+            self.imageLabel.add_shape(shape)
         self.setDirty()
 
     def pasteSelectedShape(self):
@@ -2002,6 +2003,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.canvas.endMove(copy=True)
         for shape in self.canvas.selectedShapes:
             self.addLabel(shape)
+            self.imageLabel.add_shape(shape)
         self.labelList.clearSelection()
         self.setDirty()
 
