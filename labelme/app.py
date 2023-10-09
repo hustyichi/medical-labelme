@@ -1927,23 +1927,31 @@ class MainWindow(QtWidgets.QMainWindow):
     def mayContinue(self):
         if not self.dirty:
             return True
-        mb = QtWidgets.QMessageBox
+
         msg = self.tr('Save annotations to "{}" before closing?').format(
             self.filename
         )
-        answer = mb.question(
-            self,
-            self.tr("Save annotations?"),
-            msg,
-            mb.Save | mb.Discard | mb.Cancel,
-            mb.Save,
-        )
-        if answer == mb.Discard:
+
+        box = QtWidgets.QMessageBox()
+        box.setIcon(QtWidgets.QMessageBox.Question)
+        box.setWindowTitle(self.tr("Save annotations?"))
+        box.setText(msg)
+        box.setStandardButtons(QtWidgets.QMessageBox.Save | QtWidgets.QMessageBox.Discard | QtWidgets.QMessageBox.Cancel)
+
+        buttonSave = box.button(QtWidgets.QMessageBox.Save)
+        buttonSave.setText(self.tr("Save"))
+        buttonDiscard = box.button(QtWidgets.QMessageBox.Discard)
+        buttonDiscard.setText(self.tr("Discard"))
+        buttonCancel = box.button(QtWidgets.QMessageBox.Cancel)
+        buttonCancel.setText(self.tr("Cancel"))
+        box.exec_()
+
+        if box.clickedButton() == buttonDiscard:
             return True
-        elif answer == mb.Save:
+        elif box.clickedButton() == buttonSave:
             self.saveFile()
             return True
-        else:  # answer == mb.Cancel
+        else:
             return False
 
     def errorMessage(self, title, message):
