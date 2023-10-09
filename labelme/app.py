@@ -673,8 +673,8 @@ class MainWindow(QtWidgets.QMainWindow):
         utils.addActions(
             self.canvas.menus[1],
             (
-                action("&Copy here", self.copyShape),
-                action("&Move here", self.moveShape),
+                action(self.tr("&Copy here"), self.copyShape),
+                action(self.tr("&Move here"), self.moveShape),
             ),
         )
 
