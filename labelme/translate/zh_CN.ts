@@ -620,27 +620,27 @@ Polygons</source>
         <translation>即将永久性删除此标签文件。还要继续吗?</translation>
     </message>
     <message>
-        <location filename="../app.py" line="1977"/>
+        <location filename="../app.py" line="1975"/>
         <source>Attention</source>
         <translation>注意</translation>
     </message>
     <message>
-        <location filename="../app.py" line="1931"/>
+        <location filename="../app.py" line="1921"/>
         <source>Save annotations to &quot;{}&quot; before closing?</source>
         <translation>关闭前保存批注到&quot;{}&quot;吗?</translation>
     </message>
     <message>
-        <location filename="../app.py" line="1934"/>
+        <location filename="../app.py" line="1927"/>
         <source>Save annotations?</source>
         <translation>保存批注吗?</translation>
     </message>
     <message>
-        <location filename="../app.py" line="1973"/>
+        <location filename="../app.py" line="1971"/>
         <source>You are about to permanently delete {} polygons, proceed anyway?</source>
         <translation>即将永久性删除多边形{}。还要继续吗?</translation>
     </message>
     <message>
-        <location filename="../app.py" line="2009"/>
+        <location filename="../app.py" line="2007"/>
         <source>%s - Open Directory</source>
         <translation>%s - 打开目录</translation>
     </message>
@@ -688,6 +688,21 @@ Polygons</source>
         <location filename="../app.py" line="469"/>
         <source>Adjust brightness and contrast</source>
         <translation>调整亮度和对比度</translation>
+    </message>
+    <message>
+        <location filename="../app.py" line="1932"/>
+        <source>Save</source>
+        <translation>保存</translation>
+    </message>
+    <message>
+        <location filename="../app.py" line="1934"/>
+        <source>Discard</source>
+        <translation>废弃</translation>
+    </message>
+    <message>
+        <location filename="../app.py" line="1936"/>
+        <source>Cancel</source>
+        <translation>取消</translation>
     </message>
 </context>
 </TS>
