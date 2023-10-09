@@ -69,7 +69,10 @@ class FrameLabel(object):
 
     def remove_shapes(self, shapes: List[Shape]):
         for shape in shapes:
-            self.shapes.remove(shape)
+            try:
+                self.shapes.remove(shape)
+            except ValueError:
+                logger.exception(f"Remove not exist shape {shape.label} with points {shape.points}")
 
     def load_shapes(self, shapes: List[Shape], replace:bool = True):
         if replace:
