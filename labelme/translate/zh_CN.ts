@@ -95,7 +95,7 @@
         <translation>下一帧(&amp;)</translation>
     </message>
     <message>
-        <location filename="../app.py" line="169"/>
+        <location filename="../app.py" line="164"/>
         <source>Open next frame</source>
         <translation>打开下一帧图像</translation>
     </message>
@@ -615,6 +615,51 @@ Polygons</source>
         <location filename="../app.py" line="2009"/>
         <source>%s - Open Directory</source>
         <translation>%s - 打开目录</translation>
+    </message>
+    <message>
+        <location filename="../app.py" line="224"/>
+        <source>Save With Image Data</source>
+        <translation>保存图像数据</translation>
+    </message>
+    <message>
+        <location filename="../app.py" line="224"/>
+        <source>Save image data in label file</source>
+        <translation>保存图像数据至标签文件</translation>
+    </message>
+    <message>
+        <location filename="../app.py" line="232"/>
+        <source>&amp;Close</source>
+        <translation>关闭</translation>
+    </message>
+    <message>
+        <location filename="../app.py" line="232"/>
+        <source>Close current file</source>
+        <translation>关闭当前文件</translation>
+    </message>
+    <message>
+        <location filename="../app.py" line="355"/>
+        <source>Remove Selected Point</source>
+        <translation>删除选中的控制点</translation>
+    </message>
+    <message>
+        <location filename="../app.py" line="355"/>
+        <source>Remove selected point from polygon</source>
+        <translation>从多边形中删除选中的控制点</translation>
+    </message>
+    <message>
+        <location filename="../app.py" line="398"/>
+        <source>Zoom</source>
+        <translation>缩放</translation>
+    </message>
+    <message>
+        <location filename="../app.py" line="469"/>
+        <source>&amp;Brightness Contrast</source>
+        <translation>&amp;亮度对比度</translation>
+    </message>
+    <message>
+        <location filename="../app.py" line="469"/>
+        <source>Adjust brightness and contrast</source>
+        <translation>调整亮度和对比度</translation>
     </message>
 </context>
 </TS>
