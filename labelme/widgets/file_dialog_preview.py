@@ -36,6 +36,12 @@ class FileDialogPreview(QtWidgets.QFileDialog):
         super(FileDialogPreview, self).__init__(*args, **kwargs)
         self.setOption(self.DontUseNativeDialog, True)
 
+        self.setLabelText(QtWidgets.QFileDialog.LookIn, self.tr("Look in:"))
+        self.setLabelText(QtWidgets.QFileDialog.FileName, self.tr("File name:"))
+        self.setLabelText(QtWidgets.QFileDialog.FileType, self.tr("Files of type:"))
+        self.setLabelText(QtWidgets.QFileDialog.Accept, self.tr("Open"))
+        self.setLabelText(QtWidgets.QFileDialog.Reject, self.tr("Cancel"))
+
         self.labelPreview = ScrollAreaPreview(self)
         self.labelPreview.setFixedSize(300, 300)
         self.labelPreview.setHidden(True)
