@@ -4,8 +4,8 @@ from qtpy import QtWidgets
 from qtpy.QtCore import Qt
 from qtpy.QtGui import QPalette, QColor
 
-DARK_THEME = "DARK"
-LIGHT_THEME = "LIGHT"
+DARK_THEME = "dark"
+LIGHT_THEME = "light"
 
 AVAIL_THEMES = [DARK_THEME, LIGHT_THEME]
 
