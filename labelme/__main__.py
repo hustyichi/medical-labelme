@@ -15,6 +15,7 @@ from labelme.app import MainWindow
 from labelme.config import get_config
 from labelme.logger import logger
 from labelme.utils import newIcon
+from labelme.utils import theme
 
 
 def main():
@@ -107,6 +108,12 @@ def main():
         help="epsilon to find nearest vertex on canvas",
         default=argparse.SUPPRESS,
     )
+    parser.add_argument(
+        "--theme",
+        default=theme.LIGHT_THEME,
+        choices=theme.AVAIL_THEMES,
+        help="choose theme",
+    )
     args = parser.parse_args()
 
     if args.version:
@@ -141,6 +148,7 @@ def main():
     reset_config = config_from_args.pop("reset_config")
     filename = config_from_args.pop("filename")
     output = config_from_args.pop("output")
+    current_theme = config_from_args.pop("theme")
     config_file_or_yaml = config_from_args.pop("config")
     config = get_config(config_file_or_yaml, config_from_args)
 
@@ -169,6 +177,7 @@ def main():
     app.setApplicationName(__appname__)
     app.setWindowIcon(newIcon("icon"))
     app.installTranslator(translator)
+    theme.applyTheme(app, current_theme)
     win = MainWindow(
         config=config,
         filename=filename,
