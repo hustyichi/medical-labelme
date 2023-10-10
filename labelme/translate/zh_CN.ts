@@ -38,6 +38,34 @@
     </message>
 </context>
 <context>
+    <name>FileDialogPreview</name>
+    <message>
+        <location filename="../widgets/file_dialog_preview.py" line="39"/>
+        <source>Look in:</source>
+        <translation>查找目录:</translation>
+    </message>
+    <message>
+        <location filename="../widgets/file_dialog_preview.py" line="40"/>
+        <source>File name:</source>
+        <translation>文件名:</translation>
+    </message>
+    <message>
+        <location filename="../widgets/file_dialog_preview.py" line="41"/>
+        <source>Files of type:</source>
+        <translation>文件类型:</translation>
+    </message>
+    <message>
+        <location filename="../widgets/file_dialog_preview.py" line="42"/>
+        <source>Open</source>
+        <translation>选择文件</translation>
+    </message>
+    <message>
+        <location filename="../widgets/file_dialog_preview.py" line="43"/>
+        <source>Cancel</source>
+        <translation>取消</translation>
+    </message>
+</context>
+<context>
     <name>LabelDialog</name>
     <message>
         <location filename="../widgets/label_dialog.py" line="47"/>
@@ -525,12 +553,12 @@ Polygons</source>
         <translation>文件列表</translation>
     </message>
     <message>
-        <location filename="../app.py" line="1383"/>
+        <location filename="../app.py" line="1384"/>
         <source>Invalid label</source>
         <translation>无效的标签</translation>
     </message>
     <message>
-        <location filename="../app.py" line="1383"/>
+        <location filename="../app.py" line="1384"/>
         <source>Invalid label &apos;{}&apos; with validation type &apos;{}&apos;</source>
         <translation>无效的标签&apos;{}&apos;，验证类型&apos;{}&apos;</translation>
     </message>
@@ -545,102 +573,102 @@ Polygons</source>
         <translation>&lt;b&gt;%s&lt;/b&gt;</translation>
     </message>
     <message>
-        <location filename="../app.py" line="1558"/>
+        <location filename="../app.py" line="1559"/>
         <source>Error opening file</source>
         <translation>打开文件发生错误</translation>
     </message>
     <message>
-        <location filename="../app.py" line="1522"/>
+        <location filename="../app.py" line="1523"/>
         <source>No such file: &lt;b&gt;%s&lt;/b&gt;</source>
         <translation>文件不存在: &lt;b&gt;%s&lt;/b&gt;</translation>
     </message>
     <message>
-        <location filename="../app.py" line="1528"/>
+        <location filename="../app.py" line="1529"/>
         <source>Loading %s...</source>
         <translation>正在载入 %s...</translation>
     </message>
     <message>
-        <location filename="../app.py" line="1540"/>
+        <location filename="../app.py" line="1541"/>
         <source>&lt;p&gt;&lt;b&gt;%s&lt;/b&gt;&lt;/p&gt;&lt;p&gt;Make sure &lt;i&gt;%s&lt;/i&gt; is a valid file.</source>
         <translation>&lt;p&gt;&lt;b&gt;%s&lt;/b&gt;&lt;/p&gt;&lt;p&gt;请确认&lt;i&gt;%s&lt;/i&gt;是一个合法的标签文件。</translation>
     </message>
     <message>
-        <location filename="../app.py" line="1565"/>
+        <location filename="../app.py" line="1566"/>
         <source>Error reading %s</source>
         <translation>打开文件发生错误 %s</translation>
     </message>
     <message>
-        <location filename="../app.py" line="1558"/>
+        <location filename="../app.py" line="1559"/>
         <source>&lt;p&gt;Make sure &lt;i&gt;{0}&lt;/i&gt; is a valid image file.&lt;br/&gt;Supported image formats: {1}&lt;/p&gt;</source>
         <translation>lt;p&gt;请确认&lt;i&gt;{0}&lt;/i&gt;是一个合法的图像文件。&lt;br/&gt;支持的格式包括: {1}&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../app.py" line="1623"/>
+        <location filename="../app.py" line="1624"/>
         <source>Loaded %s</source>
         <translation>已加载 %s</translation>
     </message>
     <message>
-        <location filename="../app.py" line="1767"/>
+        <location filename="../app.py" line="1768"/>
         <source>Image &amp; Label files (%s)</source>
         <translation>图像和标签文件(%s)</translation>
     </message>
     <message>
-        <location filename="../app.py" line="1773"/>
+        <location filename="../app.py" line="1774"/>
         <source>%s - Choose Image or Label file</source>
         <translation>%s - 选择图像或标签文件</translation>
     </message>
     <message>
-        <location filename="../app.py" line="1790"/>
+        <location filename="../app.py" line="1791"/>
         <source>%s - Save/Load Annotations in Directory</source>
         <translation>%s - 保存和加载批注的路径</translation>
     </message>
     <message>
-        <location filename="../app.py" line="1804"/>
+        <location filename="../app.py" line="1805"/>
         <source>%s . Annotations will be saved/loaded in %s</source>
         <translation>%s . 批注会被加载和保存在 %s</translation>
     </message>
     <message>
-        <location filename="../app.py" line="1835"/>
+        <location filename="../app.py" line="1836"/>
         <source>%s - Choose File</source>
         <translation>%s - 选择文件</translation>
     </message>
     <message>
-        <location filename="../app.py" line="1858"/>
+        <location filename="../app.py" line="1859"/>
         <source>Label files (*%s)</source>
         <translation>标签文件(*%s)</translation>
     </message>
     <message>
-        <location filename="../app.py" line="1858"/>
+        <location filename="../app.py" line="1859"/>
         <source>Choose File</source>
         <translation>选择文件</translation>
     </message>
     <message>
-        <location filename="../app.py" line="1902"/>
+        <location filename="../app.py" line="1903"/>
         <source>You are about to permanently delete this label file, proceed anyway?</source>
         <translation>即将永久性删除此标签文件。还要继续吗?</translation>
     </message>
     <message>
-        <location filename="../app.py" line="1999"/>
+        <location filename="../app.py" line="2000"/>
         <source>Attention</source>
         <translation>注意</translation>
     </message>
     <message>
-        <location filename="../app.py" line="1919"/>
+        <location filename="../app.py" line="1920"/>
         <source>Save annotations to &quot;{}&quot; before closing?</source>
         <translation>关闭前保存批注到&quot;{}&quot;吗?</translation>
     </message>
     <message>
-        <location filename="../app.py" line="1925"/>
+        <location filename="../app.py" line="1926"/>
         <source>Save annotations?</source>
         <translation>保存批注吗?</translation>
     </message>
     <message>
-        <location filename="../app.py" line="1995"/>
+        <location filename="../app.py" line="1996"/>
         <source>You are about to permanently delete {} polygons, proceed anyway?</source>
         <translation>即将永久性删除 {} 个多边形。还要继续吗?</translation>
     </message>
     <message>
-        <location filename="../app.py" line="2024"/>
+        <location filename="../app.py" line="2026"/>
         <source>%s - Open Directory</source>
         <translation>%s - 打开目录</translation>
     </message>
@@ -690,17 +718,17 @@ Polygons</source>
         <translation>调整亮度和对比度</translation>
     </message>
     <message>
-        <location filename="../app.py" line="1930"/>
+        <location filename="../app.py" line="1931"/>
         <source>Save</source>
         <translation>保存</translation>
     </message>
     <message>
-        <location filename="../app.py" line="1932"/>
+        <location filename="../app.py" line="1933"/>
         <source>Discard</source>
         <translation>废弃</translation>
     </message>
     <message>
-        <location filename="../app.py" line="1934"/>
+        <location filename="../app.py" line="1935"/>
         <source>Cancel</source>
         <translation>取消</translation>
     </message>
@@ -715,12 +743,12 @@ Polygons</source>
         <translation>&amp;移动到这里</translation>
     </message>
     <message>
-        <location filename="../app.py" line="1975"/>
+        <location filename="../app.py" line="1976"/>
         <source>Yes</source>
         <translation>确定</translation>
     </message>
     <message>
-        <location filename="../app.py" line="1977"/>
+        <location filename="../app.py" line="1978"/>
         <source>No</source>
         <translation>取消</translation>
     </message>
