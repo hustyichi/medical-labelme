@@ -974,8 +974,10 @@ class MainWindow(QtWidgets.QMainWindow):
 
     def resetState(self):
         self.labelList.clear()
+        self.fileListWidget.clear()
         self.filename = None
         self.canvas.resetState()
+        self.updateImageSwitchWidget()
 
     def currentItem(self):
         items = self.labelList.selectedItems()
