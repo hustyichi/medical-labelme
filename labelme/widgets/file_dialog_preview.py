@@ -4,6 +4,9 @@ from qtpy import QtWidgets
 
 import json
 
+from labelme import utils
+from labelme.logger import logger
+
 
 class ScrollAreaPreview(QtWidgets.QScrollArea):
     def __init__(self, *args, **kwargs):
@@ -66,8 +69,16 @@ class FileDialogPreview(QtWidgets.QFileDialog):
             )
             self.labelPreview.setHidden(False)
         else:
-            pixmap = QtGui.QPixmap(path)
-            if pixmap.isNull():
+            pixmap = None
+            try:
+                if utils.is_supported_image(path):
+                    imagePil = next(utils.load_image(path))
+                    imageBytes = utils.preprocess_img(imagePil, path)
+                    pixmap = QtGui.QPixmap.fromImage(QtGui.QImage.fromData(imageBytes))
+            except Exception as err:
+                logger.exception(f"Load image {path} got err: {str(err)}")
+
+            if pixmap is None or pixmap.isNull():
                 self.labelPreview.clear()
                 self.labelPreview.setHidden(True)
             else:
