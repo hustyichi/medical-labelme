@@ -1706,6 +1706,17 @@ class MainWindow(QtWidgets.QMainWindow):
         if self.mayContinue():
             self.loadFile(filename)
 
+    def updateImageSwitchWidget(self):
+        if len(self.imageList) <= 1 or not self.filename:
+            self.actions.openPrevImg.setEnabled(False)
+            self.actions.openNextImg.setEnabled(False)
+            return
+
+        currIndex = self.imageList.index(self.filename)
+        total = len(self.imageList)
+        self.actions.openPrevImg.setEnabled(currIndex > 0)
+        self.actions.openNextImg.setEnabled(currIndex < total - 1)
+
     def openPrevImg(self, _value=False):
         keep_prev = self._config["keep_prev"]
         if QtWidgets.QApplication.keyboardModifiers() == (
@@ -1729,6 +1740,7 @@ class MainWindow(QtWidgets.QMainWindow):
                 self.loadFile(filename)
 
         self._config["keep_prev"] = keep_prev
+        self.updateImageSwitchWidget()
 
     def openNextImg(self, _value=False, load=True):
         keep_prev = self._config["keep_prev"]
@@ -1758,6 +1770,7 @@ class MainWindow(QtWidgets.QMainWindow):
             self.loadFile(self.filename)
 
         self._config["keep_prev"] = keep_prev
+        self.updateImageSwitchWidget()
 
     def openFile(self, _value=False):
         if not self.mayContinue():
@@ -2072,16 +2085,9 @@ class MainWindow(QtWidgets.QMainWindow):
                 item.setCheckState(Qt.Unchecked)
             self.fileListWidget.addItem(item)
 
-        if len(self.imageList) > 1:
-            self.actions.openNextImg.setEnabled(True)
-            self.actions.openPrevImg.setEnabled(True)
-
         self.openNextImg()
 
     def importDirImages(self, dirpath, pattern=None, load=True):
-        self.actions.openNextImg.setEnabled(True)
-        self.actions.openPrevImg.setEnabled(True)
-
         if not self.mayContinue() or not dirpath:
             return
 
