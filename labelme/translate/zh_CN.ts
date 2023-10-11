@@ -725,7 +725,7 @@ Polygons</source>
     <message>
         <location filename="../app.py" line="1933"/>
         <source>Discard</source>
-        <translation>废弃</translation>
+        <translation>放弃</translation>
     </message>
     <message>
         <location filename="../app.py" line="1935"/>
