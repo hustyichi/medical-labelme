@@ -1938,6 +1938,8 @@ class MainWindow(QtWidgets.QMainWindow):
         box.exec_()
 
         if box.clickedButton() == buttonDiscard:
+            self.resetState()
+            self.setClean()
             return True
         elif box.clickedButton() == buttonSave:
             self.saveFile()
