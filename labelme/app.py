@@ -919,6 +919,14 @@ class MainWindow(QtWidgets.QMainWindow):
         )
         utils.addActions(self.menus.edit, actions + self.actions.editMenu)
 
+    def updateWindowTitle(self):
+        title = __appname__
+        dirtyMark = "*" if self.dirty else ""
+        if self.filename is not None:
+            title = "{} - {}{}".format(__appname__, self.filename, dirtyMark)
+
+        self.setWindowTitle(title)
+
     def setDirty(self):
         # Even if we autosave the file, we keep the ability to undo
         self.actions.undo.setEnabled(self.canvas.isShapeRestorable)
@@ -932,10 +940,7 @@ class MainWindow(QtWidgets.QMainWindow):
             return
         self.dirty = True
         self.actions.save.setEnabled(True)
-        title = __appname__
-        if self.filename is not None:
-            title = "{} - {}*".format(title, self.filename)
-        self.setWindowTitle(title)
+        self.updateWindowTitle()
 
     def setClean(self):
         self.dirty = False
@@ -947,10 +952,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.actions.createPointMode.setEnabled(True)
         self.actions.createLineStripMode.setEnabled(True)
         self.actions.createAiPolygonMode.setEnabled(True)
-        title = __appname__
-        if self.filename is not None:
-            title = "{} - {}".format(title, self.filename)
-        self.setWindowTitle(title)
+        self.updateWindowTitle()
 
         if self.hasLabelFile():
             self.actions.deleteFile.setEnabled(True)
