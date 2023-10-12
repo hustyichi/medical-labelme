@@ -305,7 +305,7 @@ class MainWindow(QtWidgets.QMainWindow):
         )
         editMode = action(
             self.tr("Edit Polygons"),
-            self.setEditMode,
+            lambda: self.toggleDrawMode(True),
             shortcuts["edit_polygon"],
             "edit",
             self.tr("Move and edit the selected polygons"),
@@ -767,14 +767,11 @@ class MainWindow(QtWidgets.QMainWindow):
         # Restore application settings.
         self.settings = QtCore.QSettings("labelme", "labelme")
         self.recentFiles = self.settings.value("recentFiles", []) or []
-        size = self.settings.value("window/size", QtCore.QSize(600, 500))
-        position = self.settings.value("window/position", QtCore.QPoint(0, 0))
-        state = self.settings.value("window/state", QtCore.QByteArray())
-        self.resize(size)
-        self.move(position)
+        self.resize(self.settings.value("window/size", QtCore.QSize(600, 500)))
+        self.move(self.settings.value("window/position", QtCore.QPoint(0, 0)))
         # or simply:
         # self.restoreGeometry(settings['window/geometry']
-        self.restoreState(state)
+        self.restoreState(self.settings.value("window/state", QtCore.QByteArray()))
 
         # Populate the File menu dynamically.
         self.updateFileMenu()
@@ -1096,9 +1093,6 @@ class MainWindow(QtWidgets.QMainWindow):
             else:
                 raise ValueError("Unsupported createMode: %s" % createMode)
         self.actions.editMode.setEnabled(not edit)
-
-    def setEditMode(self):
-        self.toggleDrawMode(True)
 
     def updateFileMenu(self):
         current = self.filename
