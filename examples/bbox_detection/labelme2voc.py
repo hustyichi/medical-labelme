@@ -19,6 +19,7 @@ except ImportError:
     sys.exit(1)
 
 
+# Deprecated
 def main():
     parser = argparse.ArgumentParser(
         formatter_class=argparse.ArgumentDefaultsHelpFormatter

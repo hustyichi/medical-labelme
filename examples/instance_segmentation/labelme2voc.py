@@ -13,7 +13,7 @@ import numpy as np
 
 import labelme
 
-
+# Deprecated
 def main():
     parser = argparse.ArgumentParser(
         formatter_class=argparse.ArgumentDefaultsHelpFormatter
