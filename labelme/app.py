@@ -972,9 +972,9 @@ class MainWindow(QtWidgets.QMainWindow):
     def status(self, message, delay=5000):
         self.statusBar().showMessage(message, delay)
 
+    # reset state of current load file
     def resetState(self):
         self.labelList.clear()
-        self.fileListWidget.clear()
         self.filename = None
         self.canvas.resetState()
         self.updateImageSwitchWidget()
