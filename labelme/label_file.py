@@ -81,14 +81,14 @@ class FrameLabel(object):
         return {
             "frame": self.frame,
             "shapes": [shape.format() for shape in self.shapes],
-            "imageWidth": self.image_pil.width,
-            "imageHeight": self.image_pil.height,
+            "width": self.image_pil.width,
+            "height": self.image_pil.height,
         }
 
     def load(self, format_data: dict):
         if (
-            self.image_pil.width != format_data["imageWidth"]
-            or self.image_pil.height != format_data["imageHeight"]
+            self.image_pil.width != format_data["width"]
+            or self.image_pil.height != format_data["height"]
         ):
             raise LabelFileError(f"Frame {self.frame} width or height not match")
 
@@ -143,7 +143,7 @@ class ImageLabel(object):
         try:
             with open(label_path, "r") as f:
                 data = json.load(f)
-                relative_image_path = data.pop("imagePath")
+                relative_image_path = data.pop("image_path")
         except Exception as e:
             raise LabelFileError(f"Parsed label file {label_path} failed")
 
@@ -155,11 +155,11 @@ class ImageLabel(object):
 
         frame_shapes_data = data.pop("frames", [])
         version = data.pop("version", None)
-        totalFrame = data.pop("totalFrames", 0)
+        total_frames = data.pop("total_frames", 0)
         self.other_data = data.copy()
 
         logger.info(
-            f"Load label file {label_path} with version {version} parsed successfully, got {totalFrame} frames"
+            f"Load label file {label_path} with version {version} parsed successfully, got {total_frames} frames"
         )
 
         # parse frame shape
@@ -244,8 +244,8 @@ class ImageLabel(object):
             dict(
                 version=__version__,
                 flags=self.flags,
-                imagePath=osp.relpath(self.image_path, osp.dirname(self.label_path)),
-                totalFrames=self.total_frame,
+                image_path=osp.relpath(self.image_path, osp.dirname(self.label_path)),
+                total_frames=self.total_frame,
                 frames=[frame.format() for frame in self.frame_labels if frame.shapes],
             )
         )
@@ -281,7 +281,7 @@ class ImageLabel(object):
         try:
             with open(label_path, "r") as f:
                 data = json.load(f)
-                relative_image_path = data.pop("imagePath")
+                relative_image_path = data.pop("image_path")
         except Exception as e:
             return False
 
